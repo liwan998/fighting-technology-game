@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_fistfight_FILE E:/study/c++qt/game/fistfight/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/fistfight.exe)
+set(__QT_DEPLOY_TARGET_fistfight_RUNTIME_DLLS C:/software/QT/6.7.0/mingw_64/bin/Qt6Widgets.dll;C:/software/QT/6.7.0/mingw_64/bin/Qt6Multimedia.dll;C:/software/QT/6.7.0/mingw_64/bin/Qt6Gui.dll;C:/software/QT/6.7.0/mingw_64/bin/Qt6Network.dll;C:/software/QT/6.7.0/mingw_64/bin/Qt6Core.dll)

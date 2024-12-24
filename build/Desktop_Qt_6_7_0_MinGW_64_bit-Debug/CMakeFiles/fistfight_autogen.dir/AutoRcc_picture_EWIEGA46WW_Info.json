@@ -1,0 +1,33 @@
+{
+	"BUILD_DIR" : "E:/study/c++qt/game/fistfight/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/fistfight_autogen",
+	"CMAKE_BINARY_DIR" : "E:/study/c++qt/game/fistfight/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "E:/study/c++qt/game/fistfight/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "E:/study/c++qt/game/fistfight",
+	"CMAKE_SOURCE_DIR" : "E:/study/c++qt/game/fistfight",
+	"INCLUDE_DIR" : "E:/study/c++qt/game/fistfight/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/fistfight_autogen/include",
+	"INPUTS" : 
+	[
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_5.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_9.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_0.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_7.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_3.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_10.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_8.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_6.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_1.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_11.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_4.png",
+		"E:/study/c++qt/game/fistfight/picture/img/pirate/idle/idle_right_2.png"
+	],
+	"LOCK_FILE" : "E:/study/c++qt/game/fistfight/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/fistfight_autogen.dir/AutoRcc_picture_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "picture" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_picture.cpp",
+	"RCC_EXECUTABLE" : "C:/software/QT/6.7.0/mingw_64/./bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "E:/study/c++qt/game/fistfight/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/fistfight_autogen.dir/AutoRcc_picture_EWIEGA46WW_Used.txt",
+	"SOURCE" : "E:/study/c++qt/game/fistfight/picture.qrc",
+	"VERBOSITY" : 0
+}
