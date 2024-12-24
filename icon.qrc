@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/resource/icon/猫咪.svg</file>
+    </qresource>
+</RCC>
