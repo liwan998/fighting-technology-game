@@ -1,3 +1,5 @@
+''' 两个资源文件夹(resource,sound)需要放到exe的同级目录下 '''
+
 # fighting-technology-game
 格斗小游戏
 # 格斗游戏更新日志
