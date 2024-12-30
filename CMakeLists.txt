@@ -23,12 +23,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
 
-        atlas.h atlas.cpp
-        animation.h animation.cpp
-        timer.h timer.cpp
-        resources_manager.h resources_manager.cpp
-        sound_manager.h sound_manager.cpp
-        thread_pool.h thread_pool.cpp
+        base_class/atlas.h base_class/atlas.cpp
+        base_class/animation.h base_class/animation.cpp
+        base_class/timer.h base_class/timer.cpp
+        base_class/resources_manager.h base_class/resources_manager.cpp
+        base_class/sound_manager.h base_class/sound_manager.cpp
+        base_class/thread_pool.h base_class/thread_pool.cpp
 
         box/collision_box.h box/collision_box.cpp
         box/collision_manager.h box/collision_manager.cpp
@@ -46,9 +46,19 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         role/enemy_queen.h role/enemy_queen.cpp
 
         state/State_Node.h
+        state/player_attack_state.h state/player_attack_state.cpp
+        state/player_skill_state.h state/player_skill_state.cpp
+        state/player_dead_state.h state/player_dead_state.cpp
+        state/player_fall_state.h state/player_fall_state.cpp
+        state/player_idle_state.h state/player_idle_state.cpp
+        state/player_jump_state.h state/player_jump_state.cpp
+        state/player_roll_state.h state/player_roll_state.cpp
+        state/player_run_state.h state/player_run_state.cpp
         state/state_machine.h state/state_machine.cpp
-        state/player_pirate_state_machine.h state/player_pirate_state_machine.cpp
-        state/player2_pirate_state_machine.h state/player2_pirate_state_machine.cpp
+
+        role_state/pirate_player_state_machine.h role_state/pirate_player_state_machine.cpp
+        role_state/queen_player_state_machine.h role_state/queen_player_state_machine.cpp
+
         state/player_queen_state_machine.h state/player_queen_state_machine.cpp
         state/player2_queen_state_machine.h state/player2_queen_state_machine.cpp
 
@@ -69,10 +79,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         icon.qrc
         interface/select_venture.h interface/select_venture.cpp interface/select_venture.ui
 
+
     )
     #设置目标的包含目录
     target_include_directories(fistfight PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}    #根目录
+        ${CMAKE_CURRENT_SOURCE_DIR}/base_class
         ${CMAKE_CURRENT_SOURCE_DIR}/role
+        ${CMAKE_CURRENT_SOURCE_DIR}/role_state
         ${CMAKE_CURRENT_SOURCE_DIR}/state
         ${CMAKE_CURRENT_SOURCE_DIR}/box
         ${CMAKE_CURRENT_SOURCE_DIR}/bullet
