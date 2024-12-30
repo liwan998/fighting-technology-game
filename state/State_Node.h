@@ -1,10 +1,12 @@
 #ifndef STATE_NODE_H
 #define STATE_NODE_H
+#include<QObject>
 
-class State_Node
+class State_Node:public QObject
 {
+    Q_OBJECT
 public:
-    State_Node()=default;
+    explicit State_Node(QObject *parent = nullptr):QObject{parent}{}
     ~State_Node()=default;
 
     virtual void on_enter() {};

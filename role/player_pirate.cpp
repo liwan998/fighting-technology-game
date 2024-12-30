@@ -1,6 +1,6 @@
 #include "player_pirate.h"
 #include"resources_manager.h"
-#include"player_pirate_state_machine.h"
+#include"pirate_player_state_machine.h"
 #include"character_manager.h"
 #include<QDebug>
 #include"sound_manager.h"
@@ -79,7 +79,7 @@ Player_pirate::Player_pirate(QObject *parent)
 
 
 
-    Animation_Group &animation_attack=animation_pool["player_pirate_attack"];
+    Animation_Group &animation_attack=animation_pool["attack"];
 
     Animation& animation_attack_left = animation_attack.left;
     animation_attack_left.set_interval(0.07f);
@@ -91,7 +91,7 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_attack_right.set_is_loop(false);
     animation_attack_right.add_fram(Resources_manager::instance()->find_atlas("pirate_attack_right"));
 
-    Animation_Group &animation_dead=animation_pool["player_pirate_dead"];
+    Animation_Group &animation_dead=animation_pool["dead"];
 
     Animation& animation_dead_left = animation_dead.left;
     animation_dead_left.set_interval(0.07f);
@@ -103,7 +103,7 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_dead_right.set_is_loop(true);
     animation_dead_right.add_fram(Resources_manager::instance()->find_atlas("pirate_dead_right"));
 
-    Animation_Group &animation_fall=animation_pool["player_pirate_fall"];
+    Animation_Group &animation_fall=animation_pool["fall"];
 
     Animation& animation_fall_left = animation_fall.left;
     animation_fall_left.set_interval(0.1f);
@@ -115,7 +115,7 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_fall_right.set_is_loop(false);
     animation_fall_right.add_fram(Resources_manager::instance()->find_atlas("pirate_fall_right"));
 
-    Animation_Group &animation_idle=animation_pool["player_pirate_idle"];
+    Animation_Group &animation_idle=animation_pool["idle"];
 
     Animation& animation_idle_left = animation_idle.left;
     animation_idle_left.set_interval(0.05f);
@@ -127,7 +127,7 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_idle_right.set_is_loop(true);
     animation_idle_right.add_fram(Resources_manager::instance()->find_atlas("pirate_idle_right"));
 
-    Animation_Group &animation_jump=animation_pool["player_pirate_jump"];
+    Animation_Group &animation_jump=animation_pool["jump"];
 
     Animation& animation_jump_left = animation_jump.left;
     animation_jump_left.set_interval(0.1f);
@@ -139,7 +139,7 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_jump_right.set_is_loop(false);
     animation_jump_right.add_fram(Resources_manager::instance()->find_atlas("pirate_jump_right"));
 
-    Animation_Group &animation_roll=animation_pool["player_pirate_roll"];
+    Animation_Group &animation_roll=animation_pool["roll"];
 
     Animation& animation_roll_left = animation_roll.left;
     animation_roll_left.set_interval(0.07f);
@@ -151,7 +151,7 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_roll_right.set_is_loop(false);
     animation_roll_right.add_fram(Resources_manager::instance()->find_atlas("pirate_roll_right"));
 
-    Animation_Group &animation_run=animation_pool["player_pirate_run"];
+    Animation_Group &animation_run=animation_pool["run"];
 
     Animation& animation_run_left = animation_run.left;
     animation_run_left.set_interval(0.07f);
@@ -163,7 +163,7 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_run_right.set_is_loop(true);
     animation_run_right.add_fram(Resources_manager::instance()->find_atlas("pirate_run_right"));
 
-    Animation_Group &animation_skill=animation_pool["player_pirate_skill"];
+    Animation_Group &animation_skill=animation_pool["skill"];
 
     Animation& animation_skill_left = animation_skill.left;
     animation_skill_left.set_interval(0.07f);
@@ -176,15 +176,15 @@ Player_pirate::Player_pirate(QObject *parent)
     animation_skill_right.add_fram(Resources_manager::instance()->find_atlas("pirate_skill_right"));
 
     //状态机初始化
-    state_machine.register_state("player_pirate_attack",	new Player_Pirate_Attack_State());
-    state_machine.register_state("player_pirate_skill",    new Player_Pirate_Skill_State());
-    state_machine.register_state("player_pirate_dead",     new Player_Pirate_Dead_State());
-    state_machine.register_state("player_pirate_fall",     new Player_Pirate_Fall_State());
-    state_machine.register_state("player_pirate_idle",     new Player_Pirate_Idle_State());
-    state_machine.register_state("player_pirate_jump",     new Player_Pirate_Jump_State());
-    state_machine.register_state("player_pirate_roll",     new Player_Pirate_Roll_State());
-    state_machine.register_state("player_pirate_run",		new Player_Pirate_Run_State());
-    state_machine.set_entry("player_pirate_idle");
+    state_machine.register_state("attack",	 new Pirate_Player_Attack_State(player_selects));
+    state_machine.register_state("skill",    new Pirate_Player_Skill_State(player_selects));
+    state_machine.register_state("dead",     new Pirate_Player_Dead_State(player_selects));
+    state_machine.register_state("fall",     new Pirate_Player_Fall_State(player_selects));
+    state_machine.register_state("idle",     new Pirate_Player_Idle_State(player_selects));
+    state_machine.register_state("jump",     new Pirate_Player_Jump_State(player_selects));
+    state_machine.register_state("roll",     new Pirate_Player_Roll_State(player_selects));
+    state_machine.register_state("run",		 new Pirate_Player_Run_State(player_selects));
+    state_machine.set_entry("idle");
 
 }
 

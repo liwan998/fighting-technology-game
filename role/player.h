@@ -89,7 +89,6 @@ protected:
 protected:
     Player_select player_selects=Player::Player_select::left;
 
-
 };
 
 #endif // PLAYER_H
