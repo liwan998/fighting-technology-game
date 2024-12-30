@@ -8,12 +8,12 @@ Player_Skill_State::Player_Skill_State(Player::Player_select player_select,QObje
 
     timer.set_one_shot(true);
     timer.set_on_timeout(
-        [&]() {
+        [=]() {
             if(player_select==Player::Player_select::left){
                 Player* player = static_cast<Player*>(Character_Manager::instance()->get_player());
                 player->setIs_skill(false);
             }else{
-                Player* player = static_cast<Player*>(Character_Manager::instance()->get_player());
+                Player* player = static_cast<Player*>(Character_Manager::instance()->get_player2());
                 player->setIs_skill(false);
             }
         }
