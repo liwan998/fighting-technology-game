@@ -1,7 +1,7 @@
 #include "player2_queen.h"
 #include"character_manager.h"
 #include"resources_manager.h"
-#include"player2_queen_state_machine.h"
+#include"queen_player_state_machine.h"
 #include"bullet_manager.h"
 #include"sound_manager.h"
 #include<QDebug>
@@ -72,7 +72,7 @@ Player2_queen::Player2_queen(QObject *parent)
     });
 
 
-    Animation_Group &animation_attack=animation_pool["player2_queen_attack"];
+    Animation_Group &animation_attack=animation_pool["attack"];
 
     Animation& animation_attack_left = animation_attack.left;
     animation_attack_left.set_interval(0.07f);
@@ -84,7 +84,7 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_attack_right.set_is_loop(false);
     animation_attack_right.add_fram(Resources_manager::instance()->find_atlas("queen_attack_right"));
 
-    Animation_Group &animation_dead=animation_pool["player2_queen_dead"];
+    Animation_Group &animation_dead=animation_pool["dead"];
 
     Animation& animation_dead_left = animation_dead.left;
     animation_dead_left.set_interval(0.07f);
@@ -96,7 +96,7 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_dead_right.set_is_loop(true);
     animation_dead_right.add_fram(Resources_manager::instance()->find_atlas("queen_dead_right"));
 
-    Animation_Group &animation_fall=animation_pool["player2_queen_fall"];
+    Animation_Group &animation_fall=animation_pool["fall"];
 
     Animation& animation_fall_left = animation_fall.left;
     animation_fall_left.set_interval(0.1f);
@@ -108,7 +108,7 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_fall_right.set_is_loop(false);
     animation_fall_right.add_fram(Resources_manager::instance()->find_atlas("queen_fall_right"));
 
-    Animation_Group &animation_idle=animation_pool["player2_queen_idle"];
+    Animation_Group &animation_idle=animation_pool["idle"];
 
     Animation& animation_idle_left = animation_idle.left;
     animation_idle_left.set_interval(0.05f);
@@ -120,7 +120,7 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_idle_right.set_is_loop(true);
     animation_idle_right.add_fram(Resources_manager::instance()->find_atlas("queen_idle_right"));
 
-    Animation_Group &animation_jump=animation_pool["player2_queen_jump"];
+    Animation_Group &animation_jump=animation_pool["jump"];
 
     Animation& animation_jump_left = animation_jump.left;
     animation_jump_left.set_interval(0.1f);
@@ -132,7 +132,7 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_jump_right.set_is_loop(false);
     animation_jump_right.add_fram(Resources_manager::instance()->find_atlas("queen_jump_right"));
 
-    Animation_Group &animation_roll=animation_pool["player2_queen_roll"];
+    Animation_Group &animation_roll=animation_pool["roll"];
 
     Animation& animation_roll_left = animation_roll.left;
     animation_roll_left.set_interval(0.07f);
@@ -144,7 +144,7 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_roll_right.set_is_loop(false);
     animation_roll_right.add_fram(Resources_manager::instance()->find_atlas("queen_roll_right"));
 
-    Animation_Group &animation_run=animation_pool["player2_queen_run"];
+    Animation_Group &animation_run=animation_pool["run"];
 
     Animation& animation_run_left = animation_run.left;
     animation_run_left.set_interval(0.07f);
@@ -156,7 +156,7 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_run_right.set_is_loop(true);
     animation_run_right.add_fram(Resources_manager::instance()->find_atlas("queen_run_right"));
 
-    Animation_Group &animation_skill=animation_pool["player2_queen_skill"];
+    Animation_Group &animation_skill=animation_pool["skill"];
 
     Animation& animation_skill_left = animation_skill.left;
     animation_skill_left.set_interval(0.07f);
@@ -169,15 +169,15 @@ Player2_queen::Player2_queen(QObject *parent)
     animation_skill_right.add_fram(Resources_manager::instance()->find_atlas("queen_skill_right"));
 
     //状态机初始化
-    state_machine.register_state("player2_queen_attack",   new Player2_Queen_Attack_State());
-    state_machine.register_state("player2_queen_skill",    new Player2_Queen_Skill_State());
-    state_machine.register_state("player2_queen_dead",     new Player2_Queen_Dead_State());
-    state_machine.register_state("player2_queen_fall",     new Player2_Queen_Fall_State());
-    state_machine.register_state("player2_queen_idle",     new Player2_Queen_Idle_State());
-    state_machine.register_state("player2_queen_jump",     new Player2_Queen_Jump_State());
-    state_machine.register_state("player2_queen_roll",     new Player2_Queen_Roll_State());
-    state_machine.register_state("player2_queen_run",	   new Player2_Queen_Run_State());
-    state_machine.set_entry("player2_queen_idle");
+    state_machine.register_state("attack",   new Queen_Player_Attack_State(player_selects));
+    state_machine.register_state("skill",    new Queen_Player_Skill_State(player_selects));
+    state_machine.register_state("dead",     new Queen_Player_Dead_State(player_selects));
+    state_machine.register_state("fall",     new Queen_Player_Fall_State(player_selects));
+    state_machine.register_state("idle",     new Queen_Player_Idle_State(player_selects));
+    state_machine.register_state("jump",     new Queen_Player_Jump_State(player_selects));
+    state_machine.register_state("roll",     new Queen_Player_Roll_State(player_selects));
+    state_machine.register_state("run",	  new Queen_Player_Run_State(player_selects));
+    state_machine.set_entry("idle");
 }
 
 Player2_queen::~Player2_queen()

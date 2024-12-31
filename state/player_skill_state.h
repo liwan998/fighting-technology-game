@@ -19,7 +19,7 @@ public:
     virtual void on_exit() override;
 
 protected:
-    void update_hit_box_position();
+    virtual void update_hit_box_position();
 
 protected:
     Timer timer;
