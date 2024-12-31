@@ -54,16 +54,20 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         state/player_jump_state.h state/player_jump_state.cpp
         state/player_roll_state.h state/player_roll_state.cpp
         state/player_run_state.h state/player_run_state.cpp
+
+        state/enemy_attack_state.h state/enemy_attack_state.cpp
+        state/enemy_skill_state.h state/enemy_skill_state.cpp
+        state/enemy_dead_state.h state/enemy_dead_state.cpp
+        state/enemy_fall_state.h state/enemy_fall_state.cpp
+        state/enemy_idle_state.h state/enemy_idle_state.cpp
+        state/enemy_jump_state.h state/enemy_jump_state.cpp
+        state/enemy_run_state.h state/enemy_run_state.cpp
         state/state_machine.h state/state_machine.cpp
 
         role_state/pirate_player_state_machine.h role_state/pirate_player_state_machine.cpp
         role_state/queen_player_state_machine.h role_state/queen_player_state_machine.cpp
-
-        state/player_queen_state_machine.h state/player_queen_state_machine.cpp
-        state/player2_queen_state_machine.h state/player2_queen_state_machine.cpp
-
-        state/enemy_pirate_state_machine.h state/enemy_pirate_state_machine.cpp
-        state/enemy_queen_state_machine.h state/enemy_queen_state_machine.cpp
+        role_state/pirate_enemy_state_machine.h role_state/pirate_enemy_state_machine.cpp
+        role_state/queen_enemy_state_machine.h role_state/queen_enemy_state_machine.cpp
 
         interface/screen.h interface/screen.cpp
         interface/interface_manager.h interface/interface_manager.cpp
@@ -78,7 +82,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         icon.qrc
         interface/select_venture.h interface/select_venture.cpp interface/select_venture.ui
-
 
     )
     #设置目标的包含目录
