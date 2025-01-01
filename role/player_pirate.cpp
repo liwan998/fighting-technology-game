@@ -45,11 +45,11 @@ Player_pirate::Player_pirate(Player_select player_select, QObject *parent)
         is_skill_hit = true;
     });
 
-    hit_attack_box->set_on_collide([&,player_select]() {
+    hit_attack_box->set_on_collide([&]() {
         if (!is_attack_hit) return;
         is_attack_hit = false;
         timer_attack_hit.restart();
-        if (player_select == Player::Player_select::left) {
+        if (player_selects == Player::Player_select::left) {
             Character_Manager::instance()->get_player2()->decrease_hp(8);
         } else {
             Character_Manager::instance()->get_player()->decrease_hp(8);
@@ -57,11 +57,11 @@ Player_pirate::Player_pirate(Player_select player_select, QObject *parent)
 
     });
 
-    hit_skill_box->set_on_collide([&,player_select]() {
+    hit_skill_box->set_on_collide([&]() {
         if (!is_skill_hit) return;
         is_skill_hit = false;
         timer_skill_hit.restart();
-        if (player_select == Player::Player_select::left) {
+        if (player_selects == Player::Player_select::left) {
             Character_Manager::instance()->get_player2()->decrease_hp(5);
         } else {
             Character_Manager::instance()->get_player()->decrease_hp(5);

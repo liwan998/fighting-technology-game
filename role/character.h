@@ -17,11 +17,6 @@ public:
     explicit Character(QObject *parent = nullptr);
     ~Character();
 
-    enum class Player_select{
-        left=0,
-        right
-    };
-
 protected:
     struct Animation_Group {
         Animation left;

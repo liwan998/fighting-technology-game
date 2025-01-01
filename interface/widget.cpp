@@ -6,6 +6,7 @@
 #include"interface_manager.h"
 #include"bullet_manager.h"
 #include"sound_manager.h"
+#include"floating_text_manager.h"
 #include<QDebug>
 #include<QMessageBox>
 
@@ -64,8 +65,10 @@ void Widget::on_exit()
 void Widget::time_60()
 {
     auto manager=Character_Manager::instance();
-    manager->on_update(0.016);
-    Bullet_Manager::instance()->on_update(0.016);
+    const float timer=0.016;
+    manager->on_update(timer);
+    Bullet_Manager::instance()->on_update(timer);
+    Floating_Text_Manager::instance()->on_update(timer);
     Collision_Manager::instance()->process_collide();
     ui->player1_health->setValue(manager->get_player()->get_hp());
     ui->player2_health->setValue(manager->get_player2()->get_hp());
@@ -73,7 +76,7 @@ void Widget::time_60()
     this->repaint();
     if(Character_Manager::instance()->get_player()->get_hp()<=0
         ||Character_Manager::instance()->get_player2()->get_hp()<=0)
-        timer_dead.on_update(0.016);
+        timer_dead.on_update(timer);
 
     if(ui->lcdNumber->value()==0||is_dead){
         int player_hp=Character_Manager::instance()->get_player()->get_hp();
@@ -105,8 +108,8 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.drawImage(0,0,*background);
 
     Character_Manager::instance()->on_render(painter);
-
     Bullet_Manager::instance()->on_render(painter);
+    Floating_Text_Manager::instance()->on_render(painter);
     Collision_Manager::instance()->on_debug_render(painter);  //碰撞箱调试框
 
     painter.end();

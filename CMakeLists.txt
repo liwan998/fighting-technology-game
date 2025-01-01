@@ -33,14 +33,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         box/collision_box.h box/collision_box.cpp
         box/collision_manager.h box/collision_manager.cpp
 
+        floating_text/floating_text.h floating_text/floating_text.cpp
+        floating_text/floating_text_manager.h floating_text/floating_text_manager.cpp
+
         role/character.h role/character.cpp
         role/character_manager.h role/character_manager.cpp
 
         role/player.h role/player.cpp
         role/player_pirate.h role/player_pirate.cpp
-        role/player2_pirate.h role/player2_pirate.cpp
+
         role/player_queen.h role/player_queen.cpp
-        role/player2_queen.h role/player2_queen.cpp
 
         role/enemy_pirate.h role/enemy_pirate.cpp
         role/enemy_queen.h role/enemy_queen.cpp
@@ -91,6 +93,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${CMAKE_CURRENT_SOURCE_DIR}/role_state
         ${CMAKE_CURRENT_SOURCE_DIR}/state
         ${CMAKE_CURRENT_SOURCE_DIR}/box
+        ${CMAKE_CURRENT_SOURCE_DIR}/floating_text
         ${CMAKE_CURRENT_SOURCE_DIR}/bullet
         ${CMAKE_CURRENT_SOURCE_DIR}/interface)
 
