@@ -4,26 +4,14 @@
 #include "character.h"
 #include"timer.h"
 
-
-
 class Player : public Character
 {
     Q_OBJECT
 public:
     explicit Player(QObject *parent = nullptr);
-
-    enum class Player_select{
-        left=0,
-        right
-    };
-
-
-public:
     ~Player();
 
 public:
-
-
     int get_move_axis()const {
         return is_right_key_down - is_left_key_down;
     }

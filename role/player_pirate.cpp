@@ -1,191 +1,191 @@
 #include "player_pirate.h"
-#include"resources_manager.h"
-#include"pirate_player_state_machine.h"
-#include"character_manager.h"
-#include<QDebug>
-#include"sound_manager.h"
+#include "resources_manager.h"
+#include "pirate_player_state_machine.h"
+#include "character_manager.h"
+#include "sound_manager.h"
 
-Player_pirate::Player_pirate(QObject *parent)
+Player_pirate::Player_pirate(Player_select player_select, QObject *parent)
     : Player{parent}
 {
-    position={0,400};
-    is_facing_left=false;
+    this->player_selects = player_select;
 
-    position_foot={195,150};
-    logic_heigth=130;
+    position = (player_select == Player_select::left) ? QPointF{0, 400} : QPointF{1000, 400};
+    is_facing_left = (player_select == Player_select::right);
 
-    player_selects=Player::Player_select::left;
+    position_foot = {195, 150};
+    logic_heigth = 130;
 
-    auto sound_manager=Sound_manager::instance();
-    attack_effect=sound_manager->find_sound_effect("pirate_attack");
-    skill_effect=sound_manager->find_sound_effect("pirate_skill");
-    dead_effect=sound_manager->find_sound_effect("pirate_dead");
+    auto sound_manager = Sound_manager::instance();
+    attack_effect = sound_manager->find_sound_effect("pirate_attack");
+    skill_effect = sound_manager->find_sound_effect("pirate_skill");
+    dead_effect = sound_manager->find_sound_effect("pirate_dead");
 
     hit_attack_box->set_layer_src(Collision_layer::None);
-    hit_attack_box->set_layer_dst(Collision_layer::Enemy);
+    hit_attack_box->set_layer_dst((player_select == Player_select::left) ? Collision_layer::Enemy : Collision_layer::Player);
 
     hit_skill_box->set_layer_src(Collision_layer::None);
-    hit_skill_box->set_layer_dst(Collision_layer::Enemy);
+    hit_skill_box->set_layer_dst((player_select == Player_select::left) ? Collision_layer::Enemy : Collision_layer::Player);
 
-    hurt_box->set_layer_src(Collision_layer::Player);
+    hurt_box->set_layer_src((player_select == Player_select::left) ? Collision_layer::Player : Collision_layer::Enemy);
     hurt_box->set_layer_dst(Collision_layer::None);
 
-    hit_attack_box->set_size({ 200,150 });
-    hit_skill_box->set_size({200,150});
-    hurt_box->set_size({ 20,80 });
+    hit_attack_box->set_size({200, 150});
+    hit_skill_box->set_size({200, 150});
+    hurt_box->set_size({20, 80});
 
     timer_attack_hit.set_wait_time(1.47f);
     timer_attack_hit.set_one_shot(true);
-    timer_attack_hit.set_on_timeout([&](){
-        is_attack_hit=true;
+    timer_attack_hit.set_on_timeout([&]() {
+        is_attack_hit = true;
     });
 
-    timer_skill_hit.set_wait_time(0.56f);   //技能持续时间大约攻击5次左右
+    timer_skill_hit.set_wait_time(0.56f); // 技能持续时间大约攻击5次左右
     timer_skill_hit.set_one_shot(true);
-    timer_skill_hit.set_on_timeout([&](){
-        is_skill_hit=true;
+    timer_skill_hit.set_on_timeout([&]() {
+        is_skill_hit = true;
     });
 
-    hit_attack_box->set_on_collide([&](){
-        if(!is_attack_hit)  return;
-        is_attack_hit=false;
+    hit_attack_box->set_on_collide([&,player_select]() {
+        if (!is_attack_hit) return;
+        is_attack_hit = false;
         timer_attack_hit.restart();
-        Character_Manager::instance()->get_player2()->decrease_hp(8);
+        if (player_select == Player::Player_select::left) {
+            Character_Manager::instance()->get_player2()->decrease_hp(8);
+        } else {
+            Character_Manager::instance()->get_player()->decrease_hp(8);
+        }
+
     });
-    hit_skill_box->set_on_collide([&](){
-        if(!is_skill_hit)   return;
-        is_skill_hit=false;
+
+    hit_skill_box->set_on_collide([&,player_select]() {
+        if (!is_skill_hit) return;
+        is_skill_hit = false;
         timer_skill_hit.restart();
-        Character_Manager::instance()->get_player2()->decrease_hp(5);
+        if (player_select == Player::Player_select::left) {
+            Character_Manager::instance()->get_player2()->decrease_hp(5);
+        } else {
+            Character_Manager::instance()->get_player()->decrease_hp(5);
+        }
     });
 
     timer_attack.set_wait_time(CD_attack);
     timer_attack.set_one_shot(true);
-    timer_attack.set_on_timeout([&](){
-        is_attack_cd=false;
+    timer_attack.set_on_timeout([&]() {
+        is_attack_cd = false;
     });
 
     timer_skill.set_wait_time(CD_skill);
     timer_skill.set_one_shot(true);
-    timer_skill.set_on_timeout([&](){
-        is_skill_cd=false;
+    timer_skill.set_on_timeout([&]() {
+        is_skill_cd = false;
     });
 
-    // timer_ultimate.set_wait_time(CD_ultimate);
-    // timer_ultimate.set_one_shot(true);
-    // timer_ultimate.set_on_timeout([&](){
-    //     is_ultimate_cd=false;
-    // });
+    Animation_Group &animation_attack = animation_pool["attack"];
 
-
-
-    Animation_Group &animation_attack=animation_pool["attack"];
-
-    Animation& animation_attack_left = animation_attack.left;
+    Animation &animation_attack_left = animation_attack.left;
     animation_attack_left.set_interval(0.07f);
     animation_attack_left.set_is_loop(false);
     animation_attack_left.add_fram(Resources_manager::instance()->find_atlas("pirate_attack_left"));
 
-    Animation& animation_attack_right = animation_attack.right;
+    Animation &animation_attack_right = animation_attack.right;
     animation_attack_right.set_interval(0.07f);
     animation_attack_right.set_is_loop(false);
     animation_attack_right.add_fram(Resources_manager::instance()->find_atlas("pirate_attack_right"));
 
-    Animation_Group &animation_dead=animation_pool["dead"];
+    Animation_Group &animation_dead = animation_pool["dead"];
 
-    Animation& animation_dead_left = animation_dead.left;
+    Animation &animation_dead_left = animation_dead.left;
     animation_dead_left.set_interval(0.07f);
     animation_dead_left.set_is_loop(true);
     animation_dead_left.add_fram(Resources_manager::instance()->find_atlas("pirate_dead_left"));
 
-    Animation& animation_dead_right = animation_dead.right;
+    Animation &animation_dead_right = animation_dead.right;
     animation_dead_right.set_interval(0.07f);
     animation_dead_right.set_is_loop(true);
     animation_dead_right.add_fram(Resources_manager::instance()->find_atlas("pirate_dead_right"));
 
-    Animation_Group &animation_fall=animation_pool["fall"];
+    Animation_Group &animation_fall = animation_pool["fall"];
 
-    Animation& animation_fall_left = animation_fall.left;
+    Animation &animation_fall_left = animation_fall.left;
     animation_fall_left.set_interval(0.1f);
     animation_fall_left.set_is_loop(false);
     animation_fall_left.add_fram(Resources_manager::instance()->find_atlas("pirate_fall_left"));
 
-    Animation& animation_fall_right = animation_fall.right;
+    Animation &animation_fall_right = animation_fall.right;
     animation_fall_right.set_interval(0.1f);
     animation_fall_right.set_is_loop(false);
     animation_fall_right.add_fram(Resources_manager::instance()->find_atlas("pirate_fall_right"));
 
-    Animation_Group &animation_idle=animation_pool["idle"];
+    Animation_Group &animation_idle = animation_pool["idle"];
 
-    Animation& animation_idle_left = animation_idle.left;
+    Animation &animation_idle_left = animation_idle.left;
     animation_idle_left.set_interval(0.05f);
     animation_idle_left.set_is_loop(true);
     animation_idle_left.add_fram(Resources_manager::instance()->find_atlas("pirate_idle_left"));
 
-    Animation& animation_idle_right = animation_idle.right;
+    Animation &animation_idle_right = animation_idle.right;
     animation_idle_right.set_interval(0.05f);
     animation_idle_right.set_is_loop(true);
     animation_idle_right.add_fram(Resources_manager::instance()->find_atlas("pirate_idle_right"));
 
-    Animation_Group &animation_jump=animation_pool["jump"];
+    Animation_Group &animation_jump = animation_pool["jump"];
 
-    Animation& animation_jump_left = animation_jump.left;
+    Animation &animation_jump_left = animation_jump.left;
     animation_jump_left.set_interval(0.1f);
     animation_jump_left.set_is_loop(false);
     animation_jump_left.add_fram(Resources_manager::instance()->find_atlas("pirate_jump_left"));
 
-    Animation& animation_jump_right = animation_jump.right;
+    Animation &animation_jump_right = animation_jump.right;
     animation_jump_right.set_interval(0.1f);
     animation_jump_right.set_is_loop(false);
     animation_jump_right.add_fram(Resources_manager::instance()->find_atlas("pirate_jump_right"));
 
-    Animation_Group &animation_roll=animation_pool["roll"];
+    Animation_Group &animation_roll = animation_pool["roll"];
 
-    Animation& animation_roll_left = animation_roll.left;
+    Animation &animation_roll_left = animation_roll.left;
     animation_roll_left.set_interval(0.07f);
     animation_roll_left.set_is_loop(false);
     animation_roll_left.add_fram(Resources_manager::instance()->find_atlas("pirate_roll_left"));
 
-    Animation& animation_roll_right = animation_roll.right;
+    Animation &animation_roll_right = animation_roll.right;
     animation_roll_right.set_interval(0.07f);
     animation_roll_right.set_is_loop(false);
     animation_roll_right.add_fram(Resources_manager::instance()->find_atlas("pirate_roll_right"));
 
-    Animation_Group &animation_run=animation_pool["run"];
+    Animation_Group &animation_run = animation_pool["run"];
 
-    Animation& animation_run_left = animation_run.left;
+    Animation &animation_run_left = animation_run.left;
     animation_run_left.set_interval(0.07f);
     animation_run_left.set_is_loop(true);
     animation_run_left.add_fram(Resources_manager::instance()->find_atlas("pirate_run_left"));
 
-    Animation& animation_run_right = animation_run.right;
+    Animation &animation_run_right = animation_run.right;
     animation_run_right.set_interval(0.07f);
     animation_run_right.set_is_loop(true);
     animation_run_right.add_fram(Resources_manager::instance()->find_atlas("pirate_run_right"));
 
-    Animation_Group &animation_skill=animation_pool["skill"];
+    Animation_Group &animation_skill = animation_pool["skill"];
 
-    Animation& animation_skill_left = animation_skill.left;
+    Animation &animation_skill_left = animation_skill.left;
     animation_skill_left.set_interval(0.07f);
     animation_skill_left.set_is_loop(false);
     animation_skill_left.add_fram(Resources_manager::instance()->find_atlas("pirate_skill_left"));
 
-    Animation& animation_skill_right = animation_skill.right;
+    Animation &animation_skill_right = animation_skill.right;
     animation_skill_right.set_interval(0.07f);
     animation_skill_right.set_is_loop(false);
     animation_skill_right.add_fram(Resources_manager::instance()->find_atlas("pirate_skill_right"));
 
-    //状态机初始化
-    state_machine.register_state("attack",	 new Pirate_Player_Attack_State(player_selects));
-    state_machine.register_state("skill",    new Pirate_Player_Skill_State(player_selects));
-    state_machine.register_state("dead",     new Pirate_Player_Dead_State(player_selects));
-    state_machine.register_state("fall",     new Pirate_Player_Fall_State(player_selects));
-    state_machine.register_state("idle",     new Pirate_Player_Idle_State(player_selects));
-    state_machine.register_state("jump",     new Pirate_Player_Jump_State(player_selects));
-    state_machine.register_state("roll",     new Pirate_Player_Roll_State(player_selects));
-    state_machine.register_state("run",		 new Pirate_Player_Run_State(player_selects));
+    // 状态机初始化
+    state_machine.register_state("attack", new Pirate_Player_Attack_State(player_select));
+    state_machine.register_state("skill", new Pirate_Player_Skill_State(player_select));
+    state_machine.register_state("dead", new Pirate_Player_Dead_State(player_select));
+    state_machine.register_state("fall", new Pirate_Player_Fall_State(player_select));
+    state_machine.register_state("idle", new Pirate_Player_Idle_State(player_select));
+    state_machine.register_state("jump", new Pirate_Player_Jump_State(player_select));
+    state_machine.register_state("roll", new Pirate_Player_Roll_State(player_select));
+    state_machine.register_state("run", new Pirate_Player_Run_State(player_select));
     state_machine.set_entry("idle");
-
 }
 
 Player_pirate::~Player_pirate()

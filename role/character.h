@@ -17,6 +17,11 @@ public:
     explicit Character(QObject *parent = nullptr);
     ~Character();
 
+    enum class Player_select{
+        left=0,
+        right
+    };
+
 protected:
     struct Animation_Group {
         Animation left;
@@ -112,7 +117,7 @@ protected:
     bool is_skill=false;    //是否处于技能攻击
     bool is_attack=false;   //是否处于普通攻击
 
-protected:
+protected://音乐特效
     QMediaPlayer *jump_effect=nullptr;
     QMediaPlayer *roll_effect=nullptr;
     QMediaPlayer *attack_effect=nullptr;

@@ -3,8 +3,6 @@
 #include"player_pirate.h"
 #include"player_queen.h"
 
-#include"player2_pirate.h"
-#include"player2_queen.h"
 #include"enemy_pirate.h"
 #include"enemy_queen.h"
 
@@ -72,10 +70,10 @@ void Character_Manager::on_enter()
     int player1_select=Interface_manager::instance()->get_select_widget()->getPlayer1_select();
     switch (player1_select) {
     case 0:
-        player =new Player_pirate();
+        player =new Player_pirate(Player::Player_select::left);
         break;
     case 1:
-        player=new Player_queen();
+        player=new Player_queen(Player::Player_select::left);
         break;
     default:
         break;
@@ -84,10 +82,10 @@ void Character_Manager::on_enter()
     int player2_select=Interface_manager::instance()->get_select_widget()->getPlayer2_select();
     switch (player2_select) {
     case 0:
-        player2 =new Player2_pirate();
+        player2 =new Player_pirate(Player::Player_select::right);
         break;
     case 1:
-        player2=new Player2_queen();
+        player2=new Player_queen(Player::Player_select::right);
         break;
     case 2:
         player2=new Enemy_pirate();
@@ -114,8 +112,8 @@ void Character_Manager::on_exit()
 
 Character_Manager::Character_Manager()
 {
-    player =new Player_pirate();
-    player2 =new Player2_pirate();
+    player =new Player_pirate(Player::Player_select::left);
+    player2 =new Player_pirate(Player::Player_select::right);
 }
 
 Character_Manager::~Character_Manager()
