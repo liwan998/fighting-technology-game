@@ -1,4 +1,5 @@
-''' 两个资源文件夹(resource,sound)需要放到exe的同级目录下 '''
+<p style="font-size: 30px;">两个资源文件夹(resource,sound)需要放到exe的同级目录下 </p>
+
 
 # fighting-technology-game
 格斗小游戏
@@ -16,3 +17,4 @@
 ## 2.7版本
 把widget类文件移动到了interface文件夹下添加了界面基类让所有界面继承基类界面;
 ## 2.8版本
+优化了目前项目的一些不合理的代码逻辑，和优化了文字的显示效果使得游戏更加美观;

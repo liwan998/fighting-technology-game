@@ -5,6 +5,7 @@
 
 #include"collision_box.h"
 #include <QPainter>
+#include <mutex>
 //工厂
 class Collision_Manager : public QObject
 {
@@ -25,9 +26,8 @@ private:
 
 private:
     static Collision_Manager* manager;
+    static std::mutex m_mutex;
     QList<Collision_box*> collision_box_list;
-
-
 
 };
 

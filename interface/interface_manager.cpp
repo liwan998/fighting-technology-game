@@ -6,6 +6,7 @@
 #include<QDebug>
 
 Interface_manager* Interface_manager::manager=nullptr;
+std::mutex Interface_manager::m_mutex;
 
 Interface_manager::Interface_manager()
 {
@@ -27,6 +28,7 @@ Interface_manager::~Interface_manager()
 
 Interface_manager *Interface_manager::instance()
 {
+    std::unique_lock<std::mutex>m_mutex;
     if(!manager){
         manager=new Interface_manager();
     }

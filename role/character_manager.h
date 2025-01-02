@@ -34,9 +34,9 @@ private:
 
 private:
     static Character_Manager* manager;
+    static std::mutex m_mutex;
     Character* player=nullptr;
     Character* player2=nullptr;
-
 
 private:
     Character_Manager();

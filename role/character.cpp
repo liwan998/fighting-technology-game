@@ -1,6 +1,7 @@
 #include "character.h"
 #include"collision_manager.h"
 #include "sound_manager.h"
+#include"floating_text_manager.h"
 
 #include<QWidget>
 Character::Character(QObject *parent)
@@ -29,12 +30,6 @@ Character::Character(QObject *parent)
         }
         );
 
-    timer_hit_number.set_wait_time(0.7f);
-    timer_hit_number.set_one_shot(true);
-    timer_hit_number.set_on_timeout([&](){
-        hit_number=0;
-    });
-
     timer_hit_frequency.set_wait_time(4.0f);
     timer_hit_frequency.set_one_shot(true);
     timer_hit_frequency.set_on_timeout([&](){
@@ -58,8 +53,9 @@ void Character::decrease_hp(float Blood_volume)   //受到伤害
 {
     if (is_invulnerable) return;
 
-    hit_number=Blood_volume;
-    timer_hit_number.restart();
+    Floating_Text_Manager::instance()->createDefaultText(QString::number(Blood_volume),
+                                                         position+position_foot+QPoint(0,-90));//创建伤害文字
+
     hp-=Blood_volume;
     if(hit_frequency==0)    //第一次被攻击时开启重置攻击次数定时器
         timer_hit_frequency.restart();
@@ -171,7 +167,6 @@ void Character::on_update(float delta)
     if (is_invulnerable) {
         timer_invulnerable_blink.on_update(delta);
     }
-    timer_hit_number.on_update(delta);
     timer_hit_frequency.on_update(delta);
 
     if (!current_animation) return;
@@ -186,19 +181,6 @@ void Character::on_render(QPainter &painter)
     (is_facing_left ? current_animation->left : current_animation->right).on_render(painter);
 
     (is_facing_left ? current_animation->left : current_animation->right).setIs_box(false);//动画调试框
-
-    if(hit_number!=0){
-        QPen pen;
-        pen.setWidth(4);
-        pen.setColor(QColor(Qt::red));
-        painter.setPen(pen);
-
-        QFont font = painter.font();
-        font.setPointSize(24); // 设置字体大小为24点
-        painter.setFont(font);
-
-        painter.drawText(position+position_foot+QPoint({0,-150}),"-"+QString::number(hit_number));
-    }
 }
 
 void Character::switch_state(const std::string &id)

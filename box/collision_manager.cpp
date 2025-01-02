@@ -1,8 +1,10 @@
 #include "collision_manager.h"
-#include<QDebug>
+
 Collision_Manager* Collision_Manager::manager = nullptr;
+std::mutex Collision_Manager::m_mutex;
 
 Collision_Manager* Collision_Manager::instance() {
+    std::unique_lock<std::mutex>m_mutext;
     if (!manager) {
         manager = new Collision_Manager();
     }

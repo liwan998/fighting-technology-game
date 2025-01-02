@@ -87,9 +87,6 @@ protected:  //各种状态
     Timer timer_invulnerable_blink;	//无敌闪烁定时器
     bool is_invulnerable = false;	//无敌状态
     Timer timer_invulnerable_status;//无敌状态定时器
-
-    float hit_number=0;            //显示受伤数字
-    Timer timer_hit_number;     //受伤数字显示时间
     int hit_frequency;          //受击次数
     Timer timer_hit_frequency;  //重置受击次数
 protected:

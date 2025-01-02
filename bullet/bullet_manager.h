@@ -2,8 +2,10 @@
 #define BULLET_MANAGER_H
 
 #include <QObject>
+#include<mutex>
 #include"bullet.h"
 #include"player.h"
+
 class Bullet_Manager : public QObject
 {
     Q_OBJECT
@@ -26,6 +28,7 @@ private:
 
 private:
     static Bullet_Manager* manager;
+    static std::mutex m_mutex;
     QList<Bullet*> bullet_list;
 
 };

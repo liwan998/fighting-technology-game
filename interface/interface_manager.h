@@ -3,6 +3,7 @@
 
 #include"screen.h"
 #include <QObject>
+#include<mutex>
 #include"select.h"
 class QMediaPlayer;
 class Interface_manager : public QObject
@@ -29,6 +30,7 @@ private:
 
 private:
     static Interface_manager* manager;
+    static std::mutex m_mutex;
     Interface interface=Interface_manager::Interface::start;
     std::unordered_map<Interface,Screen*> list;    //界面容器
 };

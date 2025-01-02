@@ -3,9 +3,11 @@
 #include"bullet_queen_small.h"
 
 Bullet_Manager* Bullet_Manager::manager=nullptr;
+std::mutex Bullet_Manager::m_mutex;
 
 Bullet_Manager *Bullet_Manager::instance()
 {
+    std::unique_lock<std::mutex>m_mutex;
     if (!manager) {
         manager = new Bullet_Manager();
     }

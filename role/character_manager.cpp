@@ -11,9 +11,11 @@
 
 
 Character_Manager* Character_Manager::manager = nullptr;
+std::mutex Character_Manager::m_mutex;
 
 Character_Manager* Character_Manager::instance()
 {
+    std::unique_lock<std::mutex>m_mutex;
     if (!manager) {
         manager = new Character_Manager();
     }
