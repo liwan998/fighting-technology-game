@@ -10,17 +10,11 @@ public:
     ~Enemy_queen();
 
     void on_update(float delta)override;
-    void on_render(QPainter &painter)override;
-
-    void on_attack()override;
     void on_skill()override;
-    void on_dead()override;
 
 private:
-    Timer timer_attack_hit;//多少时间可以让敌人被普通攻击一次
-    bool is_attack_hit=false;
-    Timer timer_skill_hit;//多少时间可以让敌人被技能攻击一次
-    bool is_skill_hit=false;
+    const int attack_single_damage=3;
+    const int skill_single_damage=5;
 };
 
 #endif // ENEMY_QUEEN_H

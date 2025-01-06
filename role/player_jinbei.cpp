@@ -1,18 +1,18 @@
-#include "player_pirate.h"
-#include "pirate_player_state_machine.h"
+#include "player_jinbei.h"
 #include "character_manager.h"
 #include "sound_manager.h"
+#include"jinbei_player_state_machine.h"
 
-Player_pirate::Player_pirate(Player_select player_select, QObject *parent)
+Player_Jinbei::Player_Jinbei(Player_select player_select, QObject *parent)
     : Player{parent}
 {
     this->player_selects = player_select;
 
-    position = (player_select == Player_select::left) ? QPointF{0, 400} : QPointF{1000, 400};
+    position = (player_select == Player_select::left) ? QPointF{0, 100} : QPointF{800, 100};
     is_facing_left = (player_select == Player_select::right);
 
-    position_foot = {195, 150};
-    logic_heigth = 130;
+    position_foot = {365, 450};
+    logic_heigth = 160;
 
     auto sound_manager = Sound_manager::instance();
     attack_effect = sound_manager->find_sound_effect("pirate_attack");
@@ -21,17 +21,17 @@ Player_pirate::Player_pirate(Player_select player_select, QObject *parent)
 
     load_collision_box(player_select);
 
-    hit_attack_box->set_size({200, 150});
+    hit_attack_box->set_size({130, 100});
     hit_skill_box->set_size({200, 150});
-    hurt_box->set_size({20, 80});
+    hurt_box->set_size({70, 80});
 
-    timer_attack_hit.set_wait_time(1.47f);
+    timer_attack_hit.set_wait_time(1.12f);
     timer_attack_hit.set_one_shot(true);
     timer_attack_hit.set_on_timeout([&]() {
         is_attack_hit = true;
     });
 
-    timer_skill_hit.set_wait_time(0.56f); // 技能持续时间大约攻击5次左右
+    timer_skill_hit.set_wait_time(0.51f); // 技能持续时间大约攻击6次左右
     timer_skill_hit.set_one_shot(true);
     timer_skill_hit.set_on_timeout([&]() {
         is_skill_hit = true;
@@ -72,16 +72,16 @@ Player_pirate::Player_pirate(Player_select player_select, QObject *parent)
         is_skill_cd = false;
     });
 
-    load_image_resource("pirate");
+    load_image_resource("Jinbei");
 
     // 状态机初始化
-    state_machine.register_state("attack", new Pirate_Player_Attack_State(player_select));
-    state_machine.register_state("skill", new Pirate_Player_Skill_State(player_select));
-    state_machine.register_state("dead", new Pirate_Player_Dead_State(player_select));
-    state_machine.register_state("fall", new Pirate_Player_Fall_State(player_select));
-    state_machine.register_state("idle", new Pirate_Player_Idle_State(player_select));
-    state_machine.register_state("jump", new Pirate_Player_Jump_State(player_select));
-    state_machine.register_state("roll", new Pirate_Player_Roll_State(player_select));
-    state_machine.register_state("run", new Pirate_Player_Run_State(player_select));
+    state_machine.register_state("attack", new Jinbei_Player_Attack_State(player_select));
+    state_machine.register_state("skill", new Jinbei_Player_Skill_State(player_select));
+    state_machine.register_state("dead", new Jinbei_Player_Dead_State(player_select));
+    state_machine.register_state("fall", new Jinbei_Player_Fall_State(player_select));
+    state_machine.register_state("idle", new Jinbei_Player_Idle_State(player_select));
+    state_machine.register_state("jump", new Jinbei_Player_Jump_State(player_select));
+    state_machine.register_state("roll", new Jinbei_Player_Roll_State(player_select));
+    state_machine.register_state("run", new Jinbei_Player_Run_State(player_select));
     state_machine.set_entry("idle");
 }

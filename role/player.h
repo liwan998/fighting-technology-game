@@ -8,12 +8,6 @@ class Player : public Character
 {
     Q_OBJECT
 public:
-    enum class Player_select{
-        left=0,
-        right
-    };
-
-public:
     explicit Player(QObject *parent = nullptr);
     ~Player();
 

@@ -41,7 +41,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         role/player.h role/player.cpp
         role/player_pirate.h role/player_pirate.cpp
-
+        role/player_jinbei.h role/player_jinbei.cpp
         role/player_queen.h role/player_queen.cpp
 
         role/enemy_pirate.h role/enemy_pirate.cpp
@@ -68,6 +68,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         role_state/pirate_player_state_machine.h role_state/pirate_player_state_machine.cpp
         role_state/queen_player_state_machine.h role_state/queen_player_state_machine.cpp
+        role_state/jinbei_player_state_machine.h role_state/jinbei_player_state_machine.cpp
+
         role_state/pirate_enemy_state_machine.h role_state/pirate_enemy_state_machine.cpp
         role_state/queen_enemy_state_machine.h role_state/queen_enemy_state_machine.cpp
 

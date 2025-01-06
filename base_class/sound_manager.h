@@ -4,6 +4,7 @@
 #include <QObject>
 #include<unordered_map>
 #include<QMediaPlayer>
+#include<mutex>
 
 class Sound_manager : public QObject
 {
@@ -22,6 +23,7 @@ private:
 
 private:
     static Sound_manager *manager;
+    static std::mutex m_mutex;
     std::unordered_map<std::string,QMediaPlayer*> background_music_list;
     std::unordered_map<std::string,QMediaPlayer*> sound_effect_list;
 };

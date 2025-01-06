@@ -36,6 +36,10 @@ Select::Select(QWidget *parent)
     animation_queen1.add_fram(Resources_manager::instance()->find_atlas("queen_show"));
     animation_queen1.set_interval(0.032);
 
+    Animation &animation_Jinbei1=animation_pool[2];
+    animation_Jinbei1.add_fram(Resources_manager::instance()->find_atlas("Jinbei_show"));
+    animation_Jinbei1.set_interval(0.032);
+
     //2P选角展示画面
     Animation &animation_pirate2=animation_pool[100];
     animation_pirate2.add_fram(Resources_manager::instance()->find_atlas("pirate_show"));
@@ -45,11 +49,15 @@ Select::Select(QWidget *parent)
     animation_queen2.add_fram(Resources_manager::instance()->find_atlas("queen_show"));
     animation_queen2.set_interval(0.032);
 
-    Animation &animation_pirate2_ai=animation_pool[102];
+    Animation &animation_Jinbei2=animation_pool[102];
+    animation_Jinbei2.add_fram(Resources_manager::instance()->find_atlas("Jinbei_show"));
+    animation_Jinbei2.set_interval(0.032);
+
+    Animation &animation_pirate2_ai=animation_pool[103];
     animation_pirate2_ai.add_fram(Resources_manager::instance()->find_atlas("pirate_show"));
     animation_pirate2_ai.set_interval(0.032);
 
-    Animation &animation_queen2_ai=animation_pool[103];
+    Animation &animation_queen2_ai=animation_pool[104];
     animation_queen2_ai.add_fram(Resources_manager::instance()->find_atlas("queen_show"));
     animation_queen2_ai.set_interval(0.032);
 

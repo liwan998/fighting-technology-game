@@ -3,9 +3,11 @@
 #include<QAudioOutput>
 #include<QDebug>
 Sound_manager* Sound_manager::manager=nullptr;
+std::mutex Sound_manager::m_mutex;
 
 Sound_manager *Sound_manager::instance()
 {
+    std::unique_lock<std::mutex>m_mutex;
     if(!manager){
         manager=new Sound_manager();
     }

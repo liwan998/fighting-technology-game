@@ -74,12 +74,25 @@ static const QVector<AtlasResInfo> atlas_info_list = {
     {"queen_small_bullet","./resource/queen/bullet/%1.png",3},
     {"queen_big_bullet","./resource/queen/bullet/big%1.png",3},
 
+    //Jinbei
+    {"Jinbei_attack_right","./resource/Jinbei/attack/%1.png",16},
+    {"Jinbei_dead_right","./resource/Jinbei/dead/%1.png",12},
+    {"Jinbei_fall_right","./resource/Jinbei/fall/%1.png",6},
+    {"Jinbei_idle_right","./resource/Jinbei/idle/%1.png",14},
+    {"Jinbei_jump_right","./resource/Jinbei/jump/%1.png",6},
+    {"Jinbei_roll_right","./resource/Jinbei/roll/%1.png",7},
+    {"Jinbei_run_right","./resource/Jinbei/run/%1.png",12},
+    {"Jinbei_skill_right","./resource/Jinbei/skill/%1.png",44},
+
+    {"Jinbei_show","./resource/Jinbei/show/%1.png",59},
 };
 
 Resources_manager* Resources_manager::manager = nullptr;// 静态成员变量初始化
+std::mutex Resources_manager::m_mutex;
 
 Resources_manager* Resources_manager::instance()// 单例模式：获取实例
 {
+    std::unique_lock<std::mutex>m_mutex;
     if (!manager) {
         manager = new Resources_manager();
     }
@@ -133,6 +146,16 @@ void Resources_manager::load()// 加载资源
         flip_atlas("queen_roll_right","queen_roll_left");
         flip_atlas("queen_run_right","queen_run_left");
         flip_atlas("queen_skill_right","queen_skill_left");
+    }
+    {//Jinbei
+        flip_atlas("Jinbei_attack_right","Jinbei_attack_left");
+        flip_atlas("Jinbei_dead_right","Jinbei_dead_left");
+        flip_atlas("Jinbei_fall_right","Jinbei_fall_left");
+        flip_atlas("Jinbei_idle_right","Jinbei_idle_left");
+        flip_atlas("Jinbei_jump_right","Jinbei_jump_left");
+        flip_atlas("Jinbei_roll_right","Jinbei_roll_left");
+        flip_atlas("Jinbei_run_right","Jinbei_run_left");
+        flip_atlas("Jinbei_skill_right","Jinbei_skill_left");
     }
 }
 

@@ -6,6 +6,8 @@
 #include"enemy_pirate.h"
 #include"enemy_queen.h"
 
+#include"player_jinbei.h"
+
 #include"interface_manager.h"
 #include"thread_pool.h"
 
@@ -77,6 +79,9 @@ void Character_Manager::on_enter()
     case 1:
         player=new Player_queen(Player::Player_select::left);
         break;
+    case 2:
+        player=new Player_Jinbei(Player::Player_select::left);
+        break;
     default:
         break;
     }
@@ -90,9 +95,12 @@ void Character_Manager::on_enter()
         player2=new Player_queen(Player::Player_select::right);
         break;
     case 2:
-        player2=new Enemy_pirate();
+        player2=new Player_Jinbei(Player::Player_select::right);
         break;
     case 3:
+        player2=new Enemy_pirate();
+        break;
+    case 4:
         player2=new Enemy_queen();
         break;
     default:

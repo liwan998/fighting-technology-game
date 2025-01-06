@@ -43,7 +43,7 @@ private slots:
     void on_btn_return_home_clicked();
 
 private:
-    const int player_num=2;//当前角色数量
+    const int player_num=3;//当前角色数量
     const int ai_num=2;     //ai角色数量
 
 private:

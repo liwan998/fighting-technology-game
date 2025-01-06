@@ -2,7 +2,8 @@
 #include"collision_manager.h"
 #include "sound_manager.h"
 #include"floating_text_manager.h"
-
+#include"resources_manager.h"
+#include"character_manager.h"
 #include<QWidget>
 Character::Character(QObject *parent)
     : QObject{parent}
@@ -169,6 +170,9 @@ void Character::on_update(float delta)
     }
     timer_hit_frequency.on_update(delta);
 
+    timer_attack_hit.on_update(delta);
+    timer_skill_hit.on_update(delta);
+
     if (!current_animation) return;
     Animation& animation = (is_facing_left ? current_animation->left : current_animation->right);
     animation.on_update(delta);
@@ -212,12 +216,12 @@ void Character::on_roll()
 
 void Character::on_attack()
 {
-
+    attack_effect->play();
 }
 
 void Character::on_skill()
 {
-
+    skill_effect->play();
 }
 
 void Character::on_hurt()
@@ -226,7 +230,118 @@ void Character::on_hurt()
 
 void Character::on_dead()
 {
+    dead_effect->play();
+}
 
+void Character::load_image_resource(QString player_name)
+{
+    Animation_Group &animation_attack = animation_pool["attack"];
+
+    Animation &animation_attack_left = animation_attack.left;
+    animation_attack_left.set_interval(0.07f);
+    animation_attack_left.set_is_loop(false);
+    animation_attack_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_attack_left"));
+
+    Animation &animation_attack_right = animation_attack.right;
+    animation_attack_right.set_interval(0.07f);
+    animation_attack_right.set_is_loop(false);
+    animation_attack_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_attack_right"));
+
+    Animation_Group &animation_dead = animation_pool["dead"];
+
+    Animation &animation_dead_left = animation_dead.left;
+    animation_dead_left.set_interval(0.07f);
+    animation_dead_left.set_is_loop(true);
+    animation_dead_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_dead_left"));
+
+    Animation &animation_dead_right = animation_dead.right;
+    animation_dead_right.set_interval(0.07f);
+    animation_dead_right.set_is_loop(true);
+    animation_dead_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_dead_right"));
+
+    Animation_Group &animation_fall = animation_pool["fall"];
+
+    Animation &animation_fall_left = animation_fall.left;
+    animation_fall_left.set_interval(0.1f);
+    animation_fall_left.set_is_loop(false);
+    animation_fall_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_fall_left"));
+
+    Animation &animation_fall_right = animation_fall.right;
+    animation_fall_right.set_interval(0.1f);
+    animation_fall_right.set_is_loop(false);
+    animation_fall_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_fall_right"));
+
+    Animation_Group &animation_idle = animation_pool["idle"];
+
+    Animation &animation_idle_left = animation_idle.left;
+    animation_idle_left.set_interval(0.05f);
+    animation_idle_left.set_is_loop(true);
+    animation_idle_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_idle_left"));
+
+    Animation &animation_idle_right = animation_idle.right;
+    animation_idle_right.set_interval(0.05f);
+    animation_idle_right.set_is_loop(true);
+    animation_idle_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_idle_right"));
+
+    Animation_Group &animation_jump = animation_pool["jump"];
+
+    Animation &animation_jump_left = animation_jump.left;
+    animation_jump_left.set_interval(0.1f);
+    animation_jump_left.set_is_loop(false);
+    animation_jump_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_jump_left"));
+
+    Animation &animation_jump_right = animation_jump.right;
+    animation_jump_right.set_interval(0.1f);
+    animation_jump_right.set_is_loop(false);
+    animation_jump_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_jump_right"));
+
+    Animation_Group &animation_roll = animation_pool["roll"];
+
+    Animation &animation_roll_left = animation_roll.left;
+    animation_roll_left.set_interval(0.07f);
+    animation_roll_left.set_is_loop(false);
+    animation_roll_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_roll_left"));
+
+    Animation &animation_roll_right = animation_roll.right;
+    animation_roll_right.set_interval(0.07f);
+    animation_roll_right.set_is_loop(false);
+    animation_roll_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_roll_right"));
+
+    Animation_Group &animation_run = animation_pool["run"];
+
+    Animation &animation_run_left = animation_run.left;
+    animation_run_left.set_interval(0.07f);
+    animation_run_left.set_is_loop(true);
+    animation_run_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_run_left"));
+
+    Animation &animation_run_right = animation_run.right;
+    animation_run_right.set_interval(0.07f);
+    animation_run_right.set_is_loop(true);
+    animation_run_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_run_right"));
+
+    Animation_Group &animation_skill = animation_pool["skill"];
+
+    Animation &animation_skill_left = animation_skill.left;
+    animation_skill_left.set_interval(0.07f);
+    animation_skill_left.set_is_loop(false);
+    animation_skill_left.add_fram(Resources_manager::instance()->find_atlas(player_name+"_skill_left"));
+
+    Animation &animation_skill_right = animation_skill.right;
+    animation_skill_right.set_interval(0.07f);
+    animation_skill_right.set_is_loop(false);
+    animation_skill_right.add_fram(Resources_manager::instance()->find_atlas(player_name+"_skill_right"));
+}
+
+void Character::load_collision_box(Player_select player_select)
+{
+    hit_attack_box->set_layer_src(Collision_layer::None);
+    hit_attack_box->set_layer_dst((player_select == Player_select::left) ? Collision_layer::Enemy : Collision_layer::Player);
+
+    hit_skill_box->set_layer_src(Collision_layer::None);
+    hit_skill_box->set_layer_dst((player_select == Player_select::left) ? Collision_layer::Enemy : Collision_layer::Player);
+
+    hurt_box->set_layer_src((player_select == Player_select::left) ? Collision_layer::Player : Collision_layer::Enemy);
+    hurt_box->set_layer_dst(Collision_layer::None);
 }
 
 QPointF Character::getPosition_foot() const

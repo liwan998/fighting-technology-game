@@ -5,9 +5,10 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+
     Resources_manager::instance()->load();
     Sound_manager::instance()->load();
-    QApplication a(argc, argv);
 
     Interface_manager::instance()->enter();
 

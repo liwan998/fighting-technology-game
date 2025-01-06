@@ -14,6 +14,11 @@ class Character : public QObject
 {
     Q_OBJECT
 public:
+    enum class Player_select{
+        left=0,
+        right
+    };
+public:
     explicit Character(QObject *parent = nullptr);
     ~Character();
 
@@ -70,6 +75,9 @@ public:
     virtual void on_dead();
 
 protected:
+    void load_image_resource(QString player_name);
+    void load_collision_box(Player_select player_select);
+protected:
     const float FLOOR_Y = 620;		//地板的竖直方向坐标
     const float GRAVITY = 980*2;	//重力大小
 
@@ -87,8 +95,14 @@ protected:  //各种状态
     Timer timer_invulnerable_blink;	//无敌闪烁定时器
     bool is_invulnerable = false;	//无敌状态
     Timer timer_invulnerable_status;//无敌状态定时器
+
     int hit_frequency;          //受击次数
     Timer timer_hit_frequency;  //重置受击次数
+
+    Timer timer_attack_hit;//多少时间可以让敌人被普通攻击一次
+    bool is_attack_hit=false;
+    Timer timer_skill_hit;//多少时间可以让敌人被技能攻击一次
+    bool is_skill_hit=false;
 protected:
     float hp = 100;
     QPointF position;               //角色位置
