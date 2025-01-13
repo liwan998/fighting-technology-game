@@ -85,6 +85,19 @@ static const QVector<AtlasResInfo> atlas_info_list = {
     {"Jinbei_skill_right","./resource/Jinbei/skill/%1.png",44},
 
     {"Jinbei_show","./resource/Jinbei/show/%1.png",59},
+
+    //baby
+    {"baby_attack_right","./resource/baby/attack/%1.png",23},
+    {"baby_dead_right","./resource/baby/dead/%1.png",10},
+    {"baby_fall_right","./resource/baby/fall/%1.png",7},
+    {"baby_idle_right","./resource/baby/idle/%1.png",25},
+    {"baby_jump_right","./resource/baby/jump/%1.png",8},
+    {"baby_roll_right","./resource/baby/roll/%1.png",7},
+    {"baby_run_right","./resource/baby/run/%1.png",15},
+    {"baby_skill_right","./resource/baby/skill/%1.png",58},
+
+    {"baby_show_right","./resource/baby/show/%1.png",25},
+
 };
 
 Resources_manager* Resources_manager::manager = nullptr;// 静态成员变量初始化
@@ -156,6 +169,18 @@ void Resources_manager::load()// 加载资源
         flip_atlas("Jinbei_roll_right","Jinbei_roll_left");
         flip_atlas("Jinbei_run_right","Jinbei_run_left");
         flip_atlas("Jinbei_skill_right","Jinbei_skill_left");
+    }
+    {//baby
+        flip_atlas("baby_attack_right","baby_attack_left");
+        flip_atlas("baby_dead_right","baby_dead_left");
+        flip_atlas("baby_fall_right","baby_fall_left");
+        flip_atlas("baby_idle_right","baby_idle_left");
+        flip_atlas("baby_jump_right","baby_jump_left");
+        flip_atlas("baby_roll_right","baby_roll_left");
+        flip_atlas("baby_run_right","baby_run_left");
+        flip_atlas("baby_skill_right","baby_skill_left");
+
+        flip_atlas("baby_show_right","baby_show_left");
     }
 }
 

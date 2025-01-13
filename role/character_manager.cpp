@@ -8,6 +8,8 @@
 
 #include"player_jinbei.h"
 
+#include"player_baby.h"
+
 #include"interface_manager.h"
 #include"thread_pool.h"
 
@@ -82,6 +84,9 @@ void Character_Manager::on_enter()
     case 2:
         player=new Player_Jinbei(Player::Player_select::left);
         break;
+    case 3:
+        player=new Player_Baby(Player::Player_select::left);
+        break;
     default:
         break;
     }
@@ -98,9 +103,12 @@ void Character_Manager::on_enter()
         player2=new Player_Jinbei(Player::Player_select::right);
         break;
     case 3:
-        player2=new Enemy_pirate();
+        player2=new Player_Baby(Player::Player_select::right);
         break;
     case 4:
+        player2=new Enemy_pirate();
+        break;
+    case 5:
         player2=new Enemy_queen();
         break;
     default:

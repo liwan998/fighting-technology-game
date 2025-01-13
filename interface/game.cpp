@@ -1,5 +1,5 @@
-#include "widget.h"
-#include "./ui_widget.h"
+#include "game.h"
+#include "./ui_game.h"
 #include"character_manager.h"
 #include"resources_manager.h"
 #include"collision_manager.h"
@@ -9,8 +9,9 @@
 #include"floating_text_manager.h"
 #include<QDebug>
 #include<QMessageBox>
+#include<thread_pool.h>
 
-Widget::Widget(QWidget *parent)
+Game::Game(QWidget *parent)
     : Screen(parent)
     , ui(new Ui::Widget)
 {
@@ -29,7 +30,7 @@ Widget::Widget(QWidget *parent)
 
     background=Resources_manager::instance()->find_image("background");
     timer60.setInterval(1000/60);     //每过秒六十帧刷新
-    connect(&timer60,&QTimer::timeout,this,&Widget::time_60);
+    connect(&timer60,&QTimer::timeout,this,&Game::time_60);
 
     timer_dead.set_wait_time(1.0f);
     timer_dead.set_one_shot(true);
@@ -40,12 +41,12 @@ Widget::Widget(QWidget *parent)
 
 }
 
-Widget::~Widget()
+Game::~Game()
 {
     delete ui;
 }
 
-void Widget::on_enter()
+void Game::on_enter()
 {
     is_dead=false;
     timer_dead.restart();
@@ -55,20 +56,27 @@ void Widget::on_enter()
     Screen::on_enter();
 }
 
-void Widget::on_exit()
+void Game::on_exit()
 {
     timer60.stop();
     timer_game.stop();
     Screen::on_exit();
 }
 
-void Widget::time_60()
+void Game::time_60()
 {
     auto manager=Character_Manager::instance();
-    const float timer=0.016;
     manager->on_update(timer);
-    Bullet_Manager::instance()->on_update(timer);
-    Floating_Text_Manager::instance()->on_update(timer);
+
+    Thread_Pool::instance()->add_task([&]{
+        std::unique_lock<std::mutex> lock(mutexBulletUpdate);
+        Bullet_Manager::instance()->on_update(timer);
+    });
+    Thread_Pool::instance()->add_task([&]{
+        std::unique_lock<std::mutex> lock(mutexTextUpdate);
+        Floating_Text_Manager::instance()->on_update(timer);
+    });
+
     Collision_Manager::instance()->process_collide();
     ui->player1_health->setValue(manager->get_player()->get_hp());
     ui->player2_health->setValue(manager->get_player2()->get_hp());
@@ -102,7 +110,7 @@ void Widget::time_60()
     }
 }
 
-void Widget::paintEvent(QPaintEvent *event)
+void Game::paintEvent(QPaintEvent *event)
 {
     painter.begin(this);
     painter.drawImage(0,0,*background);
@@ -115,12 +123,12 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.end();
 }
 
-void Widget::keyPressEvent(QKeyEvent *event)
+void Game::keyPressEvent(QKeyEvent *event)
 {
     Character_Manager::instance()->key_Press(*event);
 }
 
-void Widget::keyReleaseEvent(QKeyEvent *event)
+void Game::keyReleaseEvent(QKeyEvent *event)
 {
     Character_Manager::instance()->key_Release(*event);
 }

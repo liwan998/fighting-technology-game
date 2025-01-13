@@ -17,7 +17,7 @@ private:
     const float CD_attack = 2.00f;
 
     const int attack_single_damage=3;
-    const int skill_single_damage=5;
+    const int skill_single_damage=3;
 };
 
 #endif // PLAYER_QUEEN_H

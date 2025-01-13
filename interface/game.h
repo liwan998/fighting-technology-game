@@ -1,11 +1,12 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef GAME_H
+#define GAME_H
 
 #include "screen.h"
 #include "timer.h"
 #include <QWidget>
 #include<QTimer>
 #include<QPainter>
+#include<mutex>
 QT_BEGIN_NAMESPACE
 
 class Timer;
@@ -14,13 +15,13 @@ class Widget;
 }
 QT_END_NAMESPACE
 
-class Widget : public Screen
+class Game : public Screen
 {
     Q_OBJECT
 
 public:
-    Widget(QWidget *parent = nullptr);
-    ~Widget();
+    Game(QWidget *parent = nullptr);
+    ~Game();
     void on_enter()override;
     void on_exit()override;
 
@@ -35,11 +36,15 @@ private:
     QTimer timer_game;  //游戏内倒计时
     Timer timer_dead;
     bool is_dead=false;
+
+    std::mutex mutexBulletUpdate;
+    std::mutex mutexTextUpdate;
 private:
     QPainter painter;
     QImage *background=nullptr;
+    const float timer=0.016;
 
 private:
     Ui::Widget *ui;
 };
-#endif // WIDGET_H
+#endif // GAME_H

@@ -21,7 +21,7 @@ Enemy_queen::Enemy_queen(QObject *parent)
     load_collision_box(Player_select::right);
 
     hit_attack_box->set_size({ 320,160 });
-    hit_skill_box->set_size({50,160});
+    hit_skill_box->set_size({20,20});
     hurt_box->set_size({ 20,80 });
 
     timer_attack_hit.set_wait_time(0.38f);//攻击持续时间大约攻击5次左右
