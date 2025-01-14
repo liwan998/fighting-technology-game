@@ -45,11 +45,11 @@ void Character_Manager::key_Release(QKeyEvent& event){
 void Character_Manager::on_update(float delta)
 {
     auto thread_pool=Thread_Pool::instance();
-    thread_pool->add_task([&,delta](){
+    thread_pool->add_task(2,[&,delta](){
         std::unique_lock<std::mutex> lock(mtx_update1);
         player->on_update(delta);
     });
-    thread_pool->add_task([&,delta](){
+    thread_pool->add_task(2,[&,delta](){
         std::unique_lock<std::mutex> lock(mtx_update2);
         player2->on_update(delta);
     });
@@ -118,7 +118,7 @@ void Character_Manager::on_enter()
 
 void Character_Manager::on_exit()
 {
-    Thread_Pool::instance()->over_task();
+    Thread_Pool::instance()->stop();
     if(player){
         delete player;
     }

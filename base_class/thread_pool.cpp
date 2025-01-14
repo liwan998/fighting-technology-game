@@ -1,54 +1,63 @@
 #include "thread_pool.h"
+#include <iostream>
+#include <ostream>
 
 Thread_Pool* Thread_Pool::manager = nullptr;
+std::mutex Thread_Pool::m_mutex;
 
-Thread_Pool* Thread_Pool::instance()
-{
+Thread_Pool* Thread_Pool::instance() {
+    std::unique_lock<std::mutex> lock(m_mutex);
     if (!manager) {
-        manager = new Thread_Pool(4);
+        manager = new Thread_Pool();
     }
     return manager;
 }
 
-void Thread_Pool::over_task()
-{
-    if(!task_queue.empty()){
-        task_cv.notify_all();
-        for (auto& t : thread_list) {
-            t.join();
+Thread_Pool::Thread_Pool(size_t num_threads) : stop_pool(false) {
+    for (size_t i = 0; i < num_threads; ++i) {
+        workers.emplace_back([this] { worker(); });
+    }
+}
+
+Thread_Pool::~Thread_Pool() {
+    stop();
+}
+
+void Thread_Pool::stop() {
+    stop_pool = true;
+    condition.notify_all(); // 唤醒所有线程
+
+    // 等待所有线程完成
+    for (std::thread& worker : workers) {
+        if (worker.joinable()) {
+            worker.join();
         }
     }
 }
 
+void Thread_Pool::worker() {
+    while (true) {
+        Task task;
 
-Thread_Pool::Thread_Pool(int num_threads)
-{
-    for (int i = 0; i < num_threads; i++) {
-        thread_list.emplace_back([this] {
-            while (true) {
-                std::unique_lock<std::mutex> lock(task_mutex);
-                task_cv.wait(lock, [this] {return !task_queue.empty() || stop; });
-                if (stop && task_queue.empty()) {
-                    return;
-                }
-                auto task = std::move(task_queue.front());
-                task_queue.pop();
-                lock.unlock();
-                task();
+        {
+            std::unique_lock<std::mutex> lock(queue_mutex);
+            // 等待任务或停止信号
+            condition.wait(lock, [this] {
+                return stop_pool || !task_queue.empty();
+            });
+            // 如果线程池已停止且任务队列为空，退出线程
+            if (stop_pool && task_queue.empty()) {
+                return;
             }
-        });
+            // 获取最高优先级的任务
+            task = std::move(task_queue.top());
+            task_queue.pop();
+        }
+        try {
+            task.func(); // 执行任务
+        } catch (const std::exception& e) {
+            // 捕获并处理任务中的异常
+            std::cerr << "Task failed with exception: " << e.what() << std::endl;
+        }
     }
 }
-
-Thread_Pool::~Thread_Pool()
-{
-    {
-        std::unique_lock<std::mutex> lock(task_mutex);
-        stop = true;
-    }
-    task_cv.notify_all();
-    for (auto& t : thread_list) {
-        t.join();
-    }
-}
-

@@ -68,11 +68,11 @@ void Game::time_60()
     auto manager=Character_Manager::instance();
     manager->on_update(timer);
 
-    Thread_Pool::instance()->add_task([&]{
+    Thread_Pool::instance()->add_task(3,[&]{
         std::unique_lock<std::mutex> lock(mutexBulletUpdate);
         Bullet_Manager::instance()->on_update(timer);
     });
-    Thread_Pool::instance()->add_task([&]{
+    Thread_Pool::instance()->add_task(4,[&]{
         std::unique_lock<std::mutex> lock(mutexTextUpdate);
         Floating_Text_Manager::instance()->on_update(timer);
     });
