@@ -37,11 +37,11 @@ void Bullet::on_update(float delta)
     position+=velocity;
     if(bullet_collision){
         bullet_animation.on_update(delta);
-        bullet_animation.set_position(position+position_offset);
+        bullet_animation.set_position(position+position_offset+animation_offset);
     }
 
     bullet_box->set_position(get_logic_center());
-    if(position.x()<0||position.x()>WIDE||position.y()<0||position.y()>HIGHT){
+    if(position.x()<100||position.x()>WIDE||position.y()<-200||position.y()>HIGHT){
         valid=false;
     }
 }
@@ -51,7 +51,7 @@ void Bullet::on_render(QPainter &painter)
     if(bullet_collision){
         bullet_animation.on_render(painter);
     }else{
-        painter.drawImage(position+position_offset,*bullet_img);
+        painter.drawImage(position+position_offset+animation_offset,*bullet_img);
     }
 }
 

@@ -3,7 +3,6 @@
 #include "sound_manager.h"
 #include"floating_text_manager.h"
 #include"resources_manager.h"
-#include"character_manager.h"
 #include<QWidget>
 Character::Character(QObject *parent)
     : QObject{parent}

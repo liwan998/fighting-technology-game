@@ -31,8 +31,8 @@ public:
     QPointF get_logic_center();
 
 protected:
-    const int WIDE=1380;  //界面宽
-    const int HIGHT=720;  //界面高
+    const int WIDE=1450;  //界面宽消失极限
+    const int HIGHT=720;  //界面高消失极限
 
 protected:
     QPointF position;                       //子弹位置
@@ -45,6 +45,7 @@ protected:
     Collision_box* bullet_box=nullptr;      //子弹碰撞箱
     QImage *bullet_img=nullptr;             //子弹没有碰到敌人时图片
     Animation bullet_animation;             //子弹碰到敌人后怕播放动画
+    QPointF animation_offset={0,0};         //动画位置偏移
 };
 
 #endif // BULLET_H

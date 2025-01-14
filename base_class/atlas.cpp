@@ -6,15 +6,14 @@
 
 Atlas::~Atlas()
 {
-    qDeleteAll(img_list);
-    img_list.clear();
+    clear();
 }
 
-void Atlas::load_from_file(QString str, int num)
+void Atlas::load_from_file(QString filePath, int num)
 {
     clear();
     for (int i = 0; i < num; ++i) {
-        QString file_name = str.arg(i); // str是一个包含文件名模式的字符串，例如 "image_%1.png"
+        QString file_name = filePath.arg(i); // str是一个包含文件名模式的字符串，例如 "image_%1.png"
         QImage *img = new QImage(file_name);
         if (img->isNull()) {
             qDebug() << "文件加载失败：" << file_name;
@@ -25,24 +24,40 @@ void Atlas::load_from_file(QString str, int num)
     }
 }
 
-void Atlas::load_from_file(QString str, int num_w, int num_h, float zoom=1)
+void Atlas::load_from_file(QString filePath, int num_w, int num_h, float zoom)
 {
-    clear();
-    QImage img(str);
+    clear();// 清空之前的图像列表
+
+    QImage img(filePath);// 加载大图
+    if (img.isNull()) {
+        qWarning() << "加载图片失败:" << filePath;
+        return;
+    }
+    // 缩放图像
     QTransform transform;
-    transform.scale(zoom, zoom); // 将图像缩放到原来的zoom倍
-    QImage img_1=img.transformed(transform,Qt::SmoothTransformation);
-    for(int i=0;i<num_h;i++){
-        for(int j=0;j<num_w;j++){
-            QImage temp=img_1.copy(img_1.width()/num_w*j,img_1.height()/num_h*i,
-                                     img_1.width()/num_w*(j+1),img_1.height()/num_h*(i+1));
-            QImage* dst_img=new QImage(temp);
-            if (dst_img->isNull()) {
-                qDebug() << "文件加载失败：" << str<<"该图片第"<<i*num_h+j+1;
-                delete dst_img; // 加载失败时释放内存
-            } else {
-                img_list.append(dst_img);
+    transform.scale(zoom, zoom);
+    QImage scaledImg = img.transformed(transform, Qt::SmoothTransformation);
+    // 检查缩放后的图像尺寸是否满足分割要求
+    if (scaledImg.width() % num_w != 0 || scaledImg.height() % num_h != 0) {
+        qWarning() << "缩放后的图像尺寸不能被 num_w 或 num_h 整除:" << filePath;
+        return;
+    }
+    // 计算每个小图的宽度和高度
+    int subImgWidth = scaledImg.width() / num_w;
+    int subImgHeight = scaledImg.height() / num_h;
+    // 分割图像
+    for (int i = 0; i < num_h; i++) {
+        for (int j = 0; j < num_w; j++) {
+            // 计算小图的区域
+            QRect subImgRect(j * subImgWidth, i * subImgHeight, subImgWidth, subImgHeight);
+            // 复制小图
+            QImage* subImg = new QImage(scaledImg.copy(subImgRect));
+            if (subImg->isNull()) {// 检查小图是否有效
+                qWarning() << "复制子图像失败:" << filePath << "在位置 (" << i << "," << j << ")";
+                delete subImg; // 释放无效的小图
+                continue;
             }
+            img_list.append(subImg);// 将小图添加到列表中
         }
     }
 }

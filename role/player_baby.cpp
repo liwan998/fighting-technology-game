@@ -2,6 +2,8 @@
 #include "character_manager.h"
 #include "sound_manager.h"
 #include"baby_player_state_machine.h"
+#include"bullet_manager.h"
+#include"rand_number.h"
 
 Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     : Player{parent}
@@ -84,4 +86,52 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     state_machine.register_state("roll", new Baby_Player_Roll_State(player_select));
     state_machine.register_state("run", new Baby_Player_Run_State(player_select));
     state_machine.set_entry("idle");
+
+    timer_call_interval.set_one_shot(false);
+    timer_call_interval.set_wait_time(0.5f);
+    timer_call_interval.set_on_timeout([&]{
+        timer_call_interval.restart();
+        Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_skill, is_facing_left,
+                                                  QPointF(random_position_x(),-150), player_selects);
+    });
+}
+
+
+void Player_Baby::on_attack()
+{
+    Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_attack, is_facing_left,
+                                              get_logic_center() - QPointF(0,30), player_selects);
+
+    Player::on_attack();
+}
+
+void Player_Baby::on_skill()
+{
+    Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_skill, is_facing_left,
+                                              QPointF(random_position_x(),-150), player_selects);
+    timer_call_interval.restart();
+    Player::on_skill();
+}
+
+void Player_Baby::on_update(float delta)
+{
+    if(is_skill){
+        timer_call_interval.on_update(delta);
+    }
+    Player::on_update(delta);
+}
+
+int Player_Baby::random_position_x()
+{
+    int x;
+    Character *player=nullptr;
+    if(player_selects==Player::Player_select::left){
+        player=Character_Manager::instance()->get_player2();
+    }else{
+        player=Character_Manager::instance()->get_player();
+    }
+    x=player->get_position().x();
+    x+=player->getPosition_foot().x();
+    x+=Rand_number::instance()->randomInt(-50,50);
+    return x;
 }

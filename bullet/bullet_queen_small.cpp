@@ -10,11 +10,6 @@ Bullet_queen_small::Bullet_queen_small(QObject *parent)
     bullet_box->set_size({30,30});
 }
 
-Bullet_queen_small::~Bullet_queen_small()
-{
-
-}
-
 void Bullet_queen_small::on_update(float delta)
 {
     if(!bullet_collision){

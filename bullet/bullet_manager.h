@@ -1,18 +1,18 @@
 #ifndef BULLET_MANAGER_H
 #define BULLET_MANAGER_H
 
-#include <QObject>
 #include<mutex>
 #include"bullet.h"
 #include"player.h"
 
-class Bullet_Manager : public QObject
+class Bullet_Manager
 {
-    Q_OBJECT
 public:
     enum class Bullet_kind{
         queen_big=0,
-        queen_small
+        queen_small,
+        boby_attack,
+        boby_skill,
     };
 
 public:
@@ -22,6 +22,7 @@ public:
     void on_update(float delta);
     void on_render(QPainter &painter);
     void deleta_all();
+
 private:
     Bullet_Manager() = default;
     ~Bullet_Manager();

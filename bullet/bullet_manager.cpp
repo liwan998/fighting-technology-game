@@ -1,6 +1,8 @@
 #include "bullet_manager.h"
 #include"bullet_queen_big.h"
 #include"bullet_queen_small.h"
+#include"bullet_boby_attack.h"
+#include"bullet_boby_skill.h"
 
 Bullet_Manager* Bullet_Manager::manager=nullptr;
 std::mutex Bullet_Manager::m_mutex;
@@ -25,6 +27,14 @@ void Bullet_Manager::create_bullet(Bullet_kind kind,bool is_left,QPointF positio
     case Bullet_Manager::Bullet_kind::queen_small:
         bullet=new Bullet_queen_small();
         bullet->setVelocity(is_left?QPointF(-4,0):QPointF(4,0));
+        break;
+    case Bullet_Manager::Bullet_kind::boby_attack:
+        bullet=new Bullet_Boby_attack(is_left);
+        bullet->setVelocity(is_left?QPointF(-6,0):QPointF(6,0));
+        break;
+    case Bullet_Manager::Bullet_kind::boby_skill:
+        bullet=new Bullet_Boby_skill();
+        bullet->setVelocity(QPointF(0,3));
         break;
     default:
         break;

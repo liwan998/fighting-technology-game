@@ -8,7 +8,7 @@ Bullet_queen_big::Bullet_queen_big(QObject *parent)
     bullet_img=Resources_manager::instance()->find_image("queen_big_bullet");
     bullet_animation.add_fram(Resources_manager::instance()->find_atlas("queen_big_bullet"));
     bullet_box->set_size({70,70});
-    effects.add_fram(Resources_manager::instance()->find_atlas("a"));
+    effects.add_fram(Resources_manager::instance()->find_atlas("flame_effects"));
     effects.set_is_loop(true);
     effects.set_interval(0.1f);
 }

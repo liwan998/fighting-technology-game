@@ -75,7 +75,7 @@ protected:
     bool is_attack_cd=false;
 
 protected:
-    Player_select player_selects=Player::Player_select::left;
+    Player_select player_selects=Player::Player_select::left;//角色属于1p还是2p
 
 };
 

@@ -3,17 +3,15 @@
 
 #include"atlas.h"
 #include"timer.h"
-#include <QObject>
 #include<QPoint>
 #include<QVector>
 #include<QRect>
 #include<QPainter>
 
-class Animation : public QObject
+class Animation
 {
-    Q_OBJECT
 public:
-    explicit Animation(QObject *parent = nullptr);
+    explicit Animation();
     ~Animation();
 
 private:

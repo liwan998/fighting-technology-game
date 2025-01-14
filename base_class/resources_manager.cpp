@@ -2,8 +2,6 @@
 #include <QImage>
 #include<QDebug>
 
-//Q_GLOBAL_STATIC(Resources_manager, globalResourcesManager)多线程的化启用确保单例实现是线程安全的
-
 struct ImageResInfo {
     QString id;
     QString path;
@@ -20,7 +18,7 @@ struct Atlas_image_ResInfo{
     QString path;
     int num_w;
     int num_h;
-    float zoom;   //缩放系数
+    float zoom=1.0f;   //缩放系数
 };
 
 static const QVector<ImageResInfo>image_info_list = {
@@ -40,11 +38,15 @@ static const QVector<ImageResInfo>image_info_list = {
     //女王红心子弹
     {"queen_small_bullet","./resource/queen/bullet/0.png"},
     {"queen_big_bullet","./resource/queen/bullet/big0.png"},
+    //刀
+    {"knife","./resource/effects/knife.png"},
 
 };
 
 static const QVector<Atlas_image_ResInfo>atlas_image_info_list = {
-    {"a","./resource/effects/acid_spit_core_sheet.png",4,4,0.5},
+    {"flame_effects","./resource/effects/acid_spit_core_sheet.png",4,4,1},
+    {"fire_bomb_right","./resource/effects/calibretto punch_flash_sheet 1.png",2,2,0.5},
+    {"boby_skill","./resource/effects/alumon_rune_3_sheet.png",2,4,0.5},
 };
 
 static const QVector<AtlasResInfo> atlas_info_list = {
@@ -181,6 +183,7 @@ void Resources_manager::load()// 加载资源
         flip_atlas("baby_skill_right","baby_skill_left");
 
         flip_atlas("baby_show_right","baby_show_left");
+        flip_atlas("fire_bomb_right","fire_bomb_left");
     }
 }
 
@@ -234,7 +237,6 @@ void Resources_manager::load_atlas_image()
             qDebug() << "图集中无效的图片:" << info.path;
         }
     }
-
 }
 
 void Resources_manager::flip_atlas(const QString &src_id, const QString dst_id)// 翻转图集资源

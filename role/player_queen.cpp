@@ -95,5 +95,4 @@ void Player_queen::on_skill()
                                               get_logic_center(), player_selects);
 
     Player::on_skill();
-    skill_effect->play();
 }

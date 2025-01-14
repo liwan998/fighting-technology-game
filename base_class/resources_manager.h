@@ -1,14 +1,13 @@
 #ifndef RESOURCES_MANAGER_H
 #define RESOURCES_MANAGER_H
 
-#include <QObject>
 #include<unordered_map>
 #include "atlas.h"
 #include<mutex>
 //单例资源管理器
-class Resources_manager : public QObject
+class Resources_manager
 {
-    Q_OBJECT 
+
 public:
     static Resources_manager* instance();
 

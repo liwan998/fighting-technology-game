@@ -1,8 +1,7 @@
 #include "animation.h"
 #include<QPainter>
 
-Animation::Animation(QObject *parent)
-    : QObject{parent}
+Animation::Animation()
 {
     timer.set_one_shot(false);
     timer.set_on_timeout(

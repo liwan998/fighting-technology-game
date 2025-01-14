@@ -12,118 +12,141 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Multimedia)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Multimedia)
 
-#add_definitions(-DQT_NO_DEBUG_OUTPUT)#定义QT_NO_DEBUG_OUTPUT宏，从而禁用所有qDebug()调用的输出。
-
+# 定义源文件
 set(PROJECT_SOURCES
-        main.cpp
+    main.cpp
 )
 
+# 定义头文件和源文件
+set(BASE_CLASS_SOURCES
+    base_class/atlas.h base_class/atlas.cpp
+    base_class/animation.h base_class/animation.cpp
+    base_class/timer.h base_class/timer.cpp
+    base_class/resources_manager.h base_class/resources_manager.cpp
+    base_class/sound_manager.h base_class/sound_manager.cpp
+    base_class/thread_pool.h base_class/thread_pool.cpp
+    base_class/rand_number.h base_class/rand_number.cpp
+)
+
+set(BOX_SOURCES
+    box/collision_box.h box/collision_box.cpp
+    box/collision_manager.h box/collision_manager.cpp
+)
+
+set(FLOATING_TEXT_SOURCES
+    floating_text/floating_text.h floating_text/floating_text.cpp
+    floating_text/floating_text_manager.h floating_text/floating_text_manager.cpp
+)
+
+set(ROLE_SOURCES
+    role/character.h role/character.cpp
+    role/character_manager.h role/character_manager.cpp
+    role/player.h role/player.cpp
+    role/player_pirate.h role/player_pirate.cpp
+    role/player_jinbei.h role/player_jinbei.cpp
+    role/player_queen.h role/player_queen.cpp
+    role/player_baby.h role/player_baby.cpp
+    role/enemy_pirate.h role/enemy_pirate.cpp
+    role/enemy_queen.h role/enemy_queen.cpp
+)
+
+set(STATE_SOURCES
+    state/State_Node.h
+    state/player_attack_state.h state/player_attack_state.cpp
+    state/player_skill_state.h state/player_skill_state.cpp
+    state/player_dead_state.h state/player_dead_state.cpp
+    state/player_fall_state.h state/player_fall_state.cpp
+    state/player_idle_state.h state/player_idle_state.cpp
+    state/player_jump_state.h state/player_jump_state.cpp
+    state/player_roll_state.h state/player_roll_state.cpp
+    state/player_run_state.h state/player_run_state.cpp
+    state/enemy_attack_state.h state/enemy_attack_state.cpp
+    state/enemy_skill_state.h state/enemy_skill_state.cpp
+    state/enemy_dead_state.h state/enemy_dead_state.cpp
+    state/enemy_fall_state.h state/enemy_fall_state.cpp
+    state/enemy_idle_state.h state/enemy_idle_state.cpp
+    state/enemy_jump_state.h state/enemy_jump_state.cpp
+    state/enemy_run_state.h state/enemy_run_state.cpp
+    state/state_machine.h state/state_machine.cpp
+)
+
+set(ROLE_STATE_SOURCES
+    role_state/pirate_player_state_machine.h role_state/pirate_player_state_machine.cpp
+    role_state/queen_player_state_machine.h role_state/queen_player_state_machine.cpp
+    role_state/jinbei_player_state_machine.h role_state/jinbei_player_state_machine.cpp
+    role_state/baby_player_state_machine.h role_state/baby_player_state_machine.cpp
+    role_state/pirate_enemy_state_machine.h role_state/pirate_enemy_state_machine.cpp
+    role_state/queen_enemy_state_machine.h role_state/queen_enemy_state_machine.cpp
+)
+
+set(INTERFACE_SOURCES
+    interface/screen.h interface/screen.cpp
+    interface/interface_manager.h interface/interface_manager.cpp
+    interface/start.h interface/start.cpp interface/start.ui
+    interface/select.h interface/select.cpp interface/select.ui
+    interface/game.cpp interface/game.h interface/game.ui
+    interface/select_venture.h interface/select_venture.cpp interface/select_venture.ui
+)
+
+set(BULLET_SOURCES
+    bullet/bullet.h bullet/bullet.cpp
+    bullet/bullet_manager.h bullet/bullet_manager.cpp
+    bullet/bullet_queen_small.h bullet/bullet_queen_small.cpp
+    bullet/bullet_queen_big.h bullet/bullet_queen_big.cpp
+    bullet/bullet_boby_attack.h bullet/bullet_boby_attack.cpp
+    bullet/bullet_boby_skill.h bullet/bullet_boby_skill.cpp
+)
+
+set(RESOURCES
+    icon.qrc
+)
+
+# 创建可执行文件
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(fistfight
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
+    qt_add_executable(fistfight MANUAL_FINALIZATION
 
-        base_class/atlas.h base_class/atlas.cpp
-        base_class/animation.h base_class/animation.cpp
-        base_class/timer.h base_class/timer.cpp
-        base_class/resources_manager.h base_class/resources_manager.cpp
-        base_class/sound_manager.h base_class/sound_manager.cpp
-        base_class/thread_pool.h base_class/thread_pool.cpp
-
-        box/collision_box.h box/collision_box.cpp
-        box/collision_manager.h box/collision_manager.cpp
-
-        floating_text/floating_text.h floating_text/floating_text.cpp
-        floating_text/floating_text_manager.h floating_text/floating_text_manager.cpp
-
-        role/character.h role/character.cpp
-        role/character_manager.h role/character_manager.cpp
-
-        role/player.h role/player.cpp
-        role/player_pirate.h role/player_pirate.cpp
-        role/player_jinbei.h role/player_jinbei.cpp
-        role/player_queen.h role/player_queen.cpp
-
-        role/enemy_pirate.h role/enemy_pirate.cpp
-        role/enemy_queen.h role/enemy_queen.cpp
-
-        state/State_Node.h
-        state/player_attack_state.h state/player_attack_state.cpp
-        state/player_skill_state.h state/player_skill_state.cpp
-        state/player_dead_state.h state/player_dead_state.cpp
-        state/player_fall_state.h state/player_fall_state.cpp
-        state/player_idle_state.h state/player_idle_state.cpp
-        state/player_jump_state.h state/player_jump_state.cpp
-        state/player_roll_state.h state/player_roll_state.cpp
-        state/player_run_state.h state/player_run_state.cpp
-
-        state/enemy_attack_state.h state/enemy_attack_state.cpp
-        state/enemy_skill_state.h state/enemy_skill_state.cpp
-        state/enemy_dead_state.h state/enemy_dead_state.cpp
-        state/enemy_fall_state.h state/enemy_fall_state.cpp
-        state/enemy_idle_state.h state/enemy_idle_state.cpp
-        state/enemy_jump_state.h state/enemy_jump_state.cpp
-        state/enemy_run_state.h state/enemy_run_state.cpp
-        state/state_machine.h state/state_machine.cpp
-
-        role_state/pirate_player_state_machine.h role_state/pirate_player_state_machine.cpp
-        role_state/queen_player_state_machine.h role_state/queen_player_state_machine.cpp
-        role_state/jinbei_player_state_machine.h role_state/jinbei_player_state_machine.cpp
-
-        role_state/pirate_enemy_state_machine.h role_state/pirate_enemy_state_machine.cpp
-        role_state/queen_enemy_state_machine.h role_state/queen_enemy_state_machine.cpp
-
-        interface/screen.h interface/screen.cpp
-        interface/interface_manager.h interface/interface_manager.cpp
-        interface/start.h interface/start.cpp interface/start.ui
-        interface/select.h interface/select.cpp interface/select.ui
-        interface/widget.cpp interface/widget.h interface/widget.ui
-        
-        bullet/bullet.h bullet/bullet.cpp
-        bullet/bullet_queen_small.h bullet/bullet_queen_small.cpp
-        bullet/bullet_queen_big.h bullet/bullet_queen_big.cpp
-        bullet/bullet_manager.h bullet/bullet_manager.cpp
-
-        icon.qrc
-        interface/select_venture.h interface/select_venture.cpp interface/select_venture.ui
-
-    )
-    #设置目标的包含目录
-    target_include_directories(fistfight PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}    #根目录
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_class
-        ${CMAKE_CURRENT_SOURCE_DIR}/role
-        ${CMAKE_CURRENT_SOURCE_DIR}/role_state
-        ${CMAKE_CURRENT_SOURCE_DIR}/state
-        ${CMAKE_CURRENT_SOURCE_DIR}/box
-        ${CMAKE_CURRENT_SOURCE_DIR}/floating_text
-        ${CMAKE_CURRENT_SOURCE_DIR}/bullet
-        ${CMAKE_CURRENT_SOURCE_DIR}/interface)
-
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET fistfight APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+       )
 else()
     if(ANDROID)
-        add_library(fistfight SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+        add_library(fistfight SHARED)
     else()
-        add_executable(fistfight
-            ${PROJECT_SOURCES}
-        )
+        add_executable(fistfight)
     endif()
 endif()
 
+# 添加源文件到目标
+target_sources(fistfight PRIVATE
+    ${PROJECT_SOURCES}
+    ${BASE_CLASS_SOURCES}
+    ${BOX_SOURCES}
+    ${FLOATING_TEXT_SOURCES}
+    ${ROLE_SOURCES}
+    ${STATE_SOURCES}
+    ${ROLE_STATE_SOURCES}
+    ${INTERFACE_SOURCES}
+    ${BULLET_SOURCES}
+    ${RESOURCES}
+)
+
+# 设置包含目录
+target_include_directories(fistfight PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_class
+    ${CMAKE_CURRENT_SOURCE_DIR}/role
+    ${CMAKE_CURRENT_SOURCE_DIR}/role_state
+    ${CMAKE_CURRENT_SOURCE_DIR}/state
+    ${CMAKE_CURRENT_SOURCE_DIR}/box
+    ${CMAKE_CURRENT_SOURCE_DIR}/floating_text
+    ${CMAKE_CURRENT_SOURCE_DIR}/bullet
+    ${CMAKE_CURRENT_SOURCE_DIR}/interface
+)
+
+# 链接 Qt 库
 target_link_libraries(fistfight PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+# 设置目标属性
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.fistfight)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.fistfight)
 endif()
 set_target_properties(fistfight PROPERTIES
     ${BUNDLE_ID_OPTION}
@@ -133,6 +156,7 @@ set_target_properties(fistfight PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+# 安装目标
 include(GNUInstallDirs)
 install(TARGETS fistfight
     BUNDLE DESTINATION .
@@ -140,6 +164,7 @@ install(TARGETS fistfight
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+# 如果是 Qt6，执行最终化操作
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(fistfight)
 endif()
