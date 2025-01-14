@@ -3,7 +3,7 @@
 #include"resources_manager.h"
 #include"interface_manager.h"
 #include"sound_manager.h"
-#include<QRandomGenerator>
+#include"rand_number.h"
 
 Select_venture::Select_venture(QWidget *parent)
     : Screen(parent)
@@ -40,7 +40,7 @@ Select_venture::~Select_venture()
 void Select_venture::on_enter()
 {
     timer.start();
-    int ran = QRandomGenerator::global()->bounded(4);
+    int ran = Rand_number::instance()->randomInt(0,4);
     QImage *background=Resources_manager::instance()->find_image("select_background"+QString::number(ran));
     if (background) {
         ui->background->setPixmap(QPixmap::fromImage(*background));

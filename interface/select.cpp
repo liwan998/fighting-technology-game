@@ -4,7 +4,7 @@
 #include"interface_manager.h"
 #include"character_manager.h"
 #include"sound_manager.h"
-#include<QRandomGenerator>
+#include"rand_number.h"
 
 Select::Select(QWidget *parent)
     : Screen(parent)
@@ -83,7 +83,7 @@ Select::~Select()
 void Select::on_enter()
 {
     timer.start();
-    int ran = QRandomGenerator::global()->bounded(4);
+    int ran = Rand_number::instance()->randomInt(0,4);
     QImage *background=Resources_manager::instance()->find_image("select_background"+QString::number(ran));
     if (background) {
         ui->background->setPixmap(QPixmap::fromImage(*background));

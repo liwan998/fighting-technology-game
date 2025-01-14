@@ -3,7 +3,7 @@
 #include "resources_manager.h"
 #include"interface_manager.h"
 #include<QImage>
-#include <QRandomGenerator>
+#include "rand_number.h"
 #include<QDebug>
 #include"sound_manager.h"
 
@@ -28,7 +28,7 @@ Start::~Start()
 
 void Start::on_enter()
 {
-    int ran = QRandomGenerator::global()->bounded(3);
+    int ran = Rand_number::instance()->randomInt(0,2);
     QImage *background=Resources_manager::instance()->find_image("start_background"+QString::number(ran));
     if (background) {
         ui->background->setPixmap(QPixmap::fromImage(*background));
