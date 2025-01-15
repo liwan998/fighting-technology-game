@@ -37,6 +37,11 @@ void Enemy_Skill_State::on_exit()
     enemy->get_hit_skill_box()->set_enabled(false);
 }
 
+void Enemy_Skill_State::setTimerWaitTime(float time)
+{
+    timer.set_wait_time(time);
+}
+
 void Enemy_Skill_State::update_hit_box_position()
 {
     auto* enemy = Character_Manager::instance()->get_player2();

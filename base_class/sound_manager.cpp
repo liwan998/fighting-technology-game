@@ -28,14 +28,15 @@ static const QVector<Sound_ResInfo>background_music_info_list = {
 static const QVector<Sound_ResInfo>sound_eddect_info_list = {
     {"jump","./sound/sound_effect/跳跃.mp3"},
     {"roll","./sound/sound_effect/快速移动.mp3"},
+    {"man_dead","./sound/sound_effect/男死亡.mp3"},
+    {"woman_dead","./sound/sound_effect/女死亡.mp3"},
 
     {"pirate_attack","./sound/sound_effect/打击音效.mp3"},
     {"pirate_skill","./sound/sound_effect/多重拳.mp3"},
-    {"pirate_dead","./sound/sound_effect/男死亡.mp3"},
 
     {"queen_attack","./sound/sound_effect/踢腿打击.mp3"},
     {"queen_skill","./sound/sound_effect/飞吻音效.mp3"},
-    {"queen_dead","./sound/sound_effect/女死亡.mp3"},
+
 };
 
 void Sound_manager::load()
@@ -71,7 +72,7 @@ void Sound_manager::load()
 QMediaPlayer *Sound_manager::find_background_music(std::string id)
 {
     if(background_music_list[id]==nullptr){
-        qDebug()<<"没有该音频";
+        qDebug()<<"没有该音频"<<id;
     }
 
     return background_music_list[id];
@@ -80,7 +81,7 @@ QMediaPlayer *Sound_manager::find_background_music(std::string id)
 QMediaPlayer *Sound_manager::find_sound_effect(std::string id)
 {
     if(sound_effect_list[id]==nullptr){
-        qDebug()<<"没有该音频";
+        qDebug()<<"没有该音频"<<id;
     }
 
     return sound_effect_list[id];

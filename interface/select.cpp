@@ -69,6 +69,14 @@ Select::Select(QWidget *parent)
     animation_queen2_ai.add_fram(Resources_manager::instance()->find_atlas("queen_show"));
     animation_queen2_ai.set_interval(0.032);
 
+    Animation &animation_Jinbei2_ai=animation_pool[106];
+    animation_Jinbei2_ai.add_fram(Resources_manager::instance()->find_atlas("Jinbei_show"));
+    animation_Jinbei2_ai.set_interval(0.032);
+
+    Animation &animation_baby2_ai=animation_pool[107];
+    animation_baby2_ai.add_fram(Resources_manager::instance()->find_atlas("baby_show_left"));
+    animation_baby2_ai.set_interval(0.07);
+
     current_player1_animation=&animation_pool[0];
     current_player2_animation=&animation_pool[100];
 

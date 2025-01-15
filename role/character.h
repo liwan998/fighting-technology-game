@@ -77,6 +77,8 @@ public:
 protected:
     void load_image_resource(QString player_name);
     void load_collision_box(Player_select player_select);
+    void load_hit_interval(const float &attack_interval,const float &skill_interval);
+    void load_effect(QString effectName,bool isMan);
 protected:
     const float FLOOR_Y = 620;		//地板的竖直方向坐标
     const float GRAVITY = 980*2;	//重力大小

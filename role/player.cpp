@@ -7,6 +7,7 @@
 #include"player_roll_state.h"
 #include"player_run_state.h"
 #include"player_skill_state.h"
+#include "character_manager.h"
 
 Player::Player(QObject *parent)
     : Character{parent}
@@ -45,9 +46,6 @@ void Player::key_Press(QKeyEvent &event)
         case Qt::Key_E:
             is_skill_key_down=true;
             break;
-        case Qt::Key_Q:
-            //is_ultimate_key_down=true;
-            break;
         default:
             break;
         }
@@ -70,9 +68,6 @@ void Player::key_Press(QKeyEvent &event)
             break;
         case Qt::Key_2:
             is_skill_key_down=true;
-            break;
-        case Qt::Key_3:
-            //is_ultimate_key_down=true;
             break;
         default:
             break;
@@ -104,9 +99,6 @@ void Player::key_Release(QKeyEvent &event)
         case Qt::Key_E:
             is_skill_key_down=false;
             break;
-        case Qt::Key_Q:
-            //is_ultimate_key_down=false;
-            break;
         default:
             break;
         }
@@ -129,9 +121,6 @@ void Player::key_Release(QKeyEvent &event)
             break;
         case Qt::Key_2:
             is_skill_key_down=false;
-            break;
-        case Qt::Key_3:
-            //is_ultimate_key_down=false;
             break;
         default:
             break;
@@ -164,7 +153,6 @@ void Player::on_update(float delta)
     timer_roll.on_update(delta);
     timer_attack.on_update(delta);
     timer_skill.on_update(delta);
-    //timer_ultimate.on_update(delta);
     Character::on_update(delta);
 
 }
@@ -200,12 +188,6 @@ void Player::on_skill()
     is_skill_cd=true;
 }
 
-// void Player::on_ultimate()
-// {
-//     timer_ultimate.restart();
-//     is_ultimate_cd=true;
-// }
-
 void Player::on_hurt()
 {
 
@@ -236,7 +218,7 @@ const bool Player::can_roll() const
     return !is_roll_cd && !is_roll && is_roll_key_down;
 }
 
-void Player::load_state_node(Player_select player_select,const float attackWaitTime,
+void Player::load_state_node(const Player_select &player_select,const float attackWaitTime,
                              const float skillWaitTime,const float RollWaitTime)
 {
     // 状态机初始化
@@ -258,6 +240,46 @@ void Player::load_state_node(Player_select player_select,const float attackWaitT
     state_machine.set_entry("idle");
 }
 
+void Player::load_hit_box(const Player_select &player_select, const int &attack_single_damage, const int &skill_single_damage)
+{
+    hit_attack_box->set_on_collide([&]() {
+        if (!is_attack_hit) return;
+        is_attack_hit = false;
+        timer_attack_hit.restart();
+        if (player_selects == Player::Player_select::left) {
+            Character_Manager::instance()->get_player2()->decrease_hp(attack_single_damage);
+        } else {
+            Character_Manager::instance()->get_player()->decrease_hp(attack_single_damage);
+        }
+    });
+
+    hit_skill_box->set_on_collide([&]() {
+        if (!is_skill_hit) return;
+        is_skill_hit = false;
+        timer_skill_hit.restart();
+        if (player_selects == Player::Player_select::left) {
+            Character_Manager::instance()->get_player2()->decrease_hp(skill_single_damage);
+        } else {
+            Character_Manager::instance()->get_player()->decrease_hp(skill_single_damage);
+        }
+    });
+}
+
+void Player::load_hit_CD(const float &CD_attack, const float &CD_skill)
+{
+    timer_attack.set_wait_time(CD_attack);
+    timer_attack.set_one_shot(true);
+    timer_attack.set_on_timeout([&]() {
+        is_attack_cd = false;
+    });
+
+    timer_skill.set_wait_time(CD_skill);
+    timer_skill.set_one_shot(true);
+    timer_skill.set_on_timeout([&]() {
+        is_skill_cd = false;
+    });
+}
+
 void Player::setIs_key_control(bool newIs_key_control)
 {
     is_key_control = newIs_key_control;
@@ -274,6 +296,4 @@ void Player::clear_button()
     is_roll_key_down = false;
     is_attack_key_down = false;
     is_skill_key_down = false;
-    //is_ultimate_key_down=false;
-
 }

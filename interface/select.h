@@ -44,7 +44,7 @@ private slots:
 
 private:
     const int player_num=4;//当前角色数量
-    const int ai_num=2;     //ai角色数量
+    const int ai_num=4;     //ai角色数量
 
 private:
     Ui::Select *ui;

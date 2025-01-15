@@ -1,32 +1,34 @@
 #include "rand_number.h"
-#include"random"
 
-Rand_number* Rand_number::manager = nullptr;// 静态成员变量初始化
-std::mutex Rand_number::m_mutex;
+Rand_number* Rand_number::manager = nullptr;
+std::once_flag Rand_number::m_onceFlag;
 
-Rand_number *Rand_number::instance()
+// 构造函数，初始化随机数引擎
+Rand_number::Rand_number() : gen(std::random_device{}()) {}
+
+Rand_number* Rand_number::instance()
 {
-    std::unique_lock<std::mutex>m_mutex;
-    if(!manager){
-        manager=new Rand_number();
-    }
+    // 使用 std::call_once 确保单例对象只被初始化一次
+    std::call_once(m_onceFlag, []() {
+        manager = new Rand_number();
+    });
     return manager;
 }
 
+// 生成指定范围内的随机整数
 int Rand_number::randomInt(int min, int max)
 {
-    std::random_device rd;  // 用于获取随机种子
-    std::mt19937 gen(rd()); // Mersenne Twister 引擎
-    std::uniform_int_distribution<> dis(min, max);// 定义分布范围 [min, max]
-    int randomValue = dis(gen);// 生成随机整数
-    return randomValue;
+    // 定义整数分布范围 [min, max]
+    std::uniform_int_distribution<> dis(min, max);
+    // 生成并返回随机整数
+    return dis(gen);
 }
 
+// 生成指定范围内的随机浮点数
 float Rand_number::randomFloat(float min, float max)
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    // 定义浮点数分布范围 [min, max]
     std::uniform_real_distribution<> dis(min, max);
-    double randomValue = dis(gen);
-    return randomValue;
+    // 生成随机浮点数并转换为 float 类型返回
+    return static_cast<float>(dis(gen));
 }

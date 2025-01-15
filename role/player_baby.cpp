@@ -1,8 +1,7 @@
 #include "player_baby.h"
-#include "character_manager.h"
-#include "sound_manager.h"
 #include"bullet_manager.h"
 #include"rand_number.h"
+#include<character_manager.h>
 
 Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     : Player{parent}
@@ -15,63 +14,16 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     position_foot = {156, 239};
     logic_heigth = 142;
 
-    auto sound_manager = Sound_manager::instance();
-    attack_effect = sound_manager->find_sound_effect("pirate_attack");
-    skill_effect = sound_manager->find_sound_effect("pirate_skill");
-    dead_effect = sound_manager->find_sound_effect("pirate_dead");
-
+    load_effect("pirate",false);
     load_collision_box(player_select);
 
     hit_attack_box->set_size({20, 20});
     hit_skill_box->set_size({20, 20});
     hurt_box->set_size({20, 80});
 
-    timer_attack_hit.set_wait_time(attackDuration+1);
-    timer_attack_hit.set_one_shot(true);
-    timer_attack_hit.set_on_timeout([&]() {
-        is_attack_hit = true;
-    });
-
-    timer_skill_hit.set_wait_time(skillDuration+1);
-    timer_skill_hit.set_one_shot(true);
-    timer_skill_hit.set_on_timeout([&]() {
-        is_skill_hit = true;
-    });
-
-    hit_attack_box->set_on_collide([&]() {
-        if (!is_attack_hit) return;
-        is_attack_hit = false;
-        timer_attack_hit.restart();
-        if (player_selects == Player::Player_select::left) {
-            Character_Manager::instance()->get_player2()->decrease_hp(attack_single_damage);
-        } else {
-            Character_Manager::instance()->get_player()->decrease_hp(attack_single_damage);
-        }
-
-    });
-
-    hit_skill_box->set_on_collide([&]() {
-        if (!is_skill_hit) return;
-        is_skill_hit = false;
-        timer_skill_hit.restart();
-        if (player_selects == Player::Player_select::left) {
-            Character_Manager::instance()->get_player2()->decrease_hp(skill_single_damage);
-        } else {
-            Character_Manager::instance()->get_player()->decrease_hp(skill_single_damage);
-        }
-    });
-
-    timer_attack.set_wait_time(CD_attack);
-    timer_attack.set_one_shot(true);
-    timer_attack.set_on_timeout([&]() {
-        is_attack_cd = false;
-    });
-
-    timer_skill.set_wait_time(CD_skill);
-    timer_skill.set_one_shot(true);
-    timer_skill.set_on_timeout([&]() {
-        is_skill_cd = false;
-    });
+    load_hit_interval(attackDuration+0.5,skillDuration+0.5);
+    load_hit_box(player_selects,attack_single_damage,skill_single_damage);
+    load_hit_CD(CD_attack,CD_skill);
 
     timer_call_interval.set_one_shot(false);
     timer_call_interval.set_wait_time(0.5f);
@@ -82,7 +34,7 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     });
 
     load_image_resource("baby");
-    load_state_node(player_select,attackDuration,skillDuration);
+    load_state_node(player_selects,attackDuration,skillDuration);
 }
 
 

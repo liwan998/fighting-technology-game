@@ -343,6 +343,36 @@ void Character::load_collision_box(Player_select player_select)
     hurt_box->set_layer_dst(Collision_layer::None);
 }
 
+void Character::load_hit_interval(const float &attack_interval, const float &skill_interval)
+{
+
+    timer_attack_hit.set_wait_time(attack_interval);
+    timer_attack_hit.set_one_shot(true);
+    timer_attack_hit.set_on_timeout([&](){
+        is_attack_hit=true;
+    });
+
+    timer_skill_hit.set_wait_time(skill_interval);
+    timer_skill_hit.set_one_shot(true);
+    timer_skill_hit.set_on_timeout([&](){
+        is_skill_hit=true;
+    });
+
+}
+
+void Character::load_effect(QString effectName,bool isMan)
+{
+    auto sound_manager = Sound_manager::instance();
+    attack_effect = sound_manager->find_sound_effect(effectName.toStdString()+ "_attack");
+    skill_effect = sound_manager->find_sound_effect(effectName.toStdString()+ "_skill");
+    if(isMan){
+        dead_effect = sound_manager->find_sound_effect("man_dead");
+    }else{
+        dead_effect = sound_manager->find_sound_effect("woman_dead");
+    }
+
+}
+
 QPointF Character::getPosition_foot() const
 {
     return position_foot;

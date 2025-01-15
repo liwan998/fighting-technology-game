@@ -4,7 +4,7 @@
 Queen_Player_Attack_State::Queen_Player_Attack_State(Player::Player_select player_select, QObject *parent)
     : Player_Attack_State{player_select,parent}
 {
-    timer.set_wait_time(1.89f);
+    timer.set_wait_time(1.9f);
 }
 
 void Queen_Player_Attack_State::update_hit_box_position()
@@ -49,5 +49,5 @@ Queen_Player_Run_State::Queen_Player_Run_State(Player::Player_select player_sele
 Queen_Player_Skill_State::Queen_Player_Skill_State(Player::Player_select player_select, QObject *parent)
     : Player_Skill_State{player_select,parent}
 {
-    timer.set_wait_time(1.54f);
+    timer.set_wait_time(1.6f);
 }

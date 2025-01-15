@@ -46,8 +46,10 @@ public://动作
     const bool can_roll()const;
 
 protected:
-    void load_state_node(Player_select player_select,const float attackWaitTime,
+    void load_state_node(const Player_select &player_select,const float attackWaitTime,
                          const float skillWaitTime,const float RollWaitTime=0.5f);
+    void load_hit_box(const Player_select &player_select,const int &attack_single_damage,const int &skill_single_damage);
+    void load_hit_CD(const float &CD_attack,const float &CD_skill);
 
 private:
     bool is_left_key_down = false;      //按键控制
@@ -59,7 +61,6 @@ private:
 
     bool is_attack_key_down = false;    //普通攻击
     bool is_skill_key_down = false;     //小技能
-    //bool is_ultimate_key_down=false;    //大招
 
 protected:
     const float CD_ROLL = 0.75f;
@@ -70,10 +71,6 @@ protected:
 
     Timer timer_skill; //小技能
     bool is_skill_cd=false;
-
-    // Timer timer_ultimate; //大招
-    // bool is_ultimate=false;
-    // bool is_ultimate_cd=false;
 
     Timer timer_attack;//普通攻击
     bool is_attack_cd=false;

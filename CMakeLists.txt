@@ -41,13 +41,18 @@ set(FLOATING_TEXT_SOURCES
 set(ROLE_SOURCES
     role/character.h role/character.cpp
     role/character_manager.h role/character_manager.cpp
+
     role/player.h role/player.cpp
     role/player_pirate.h role/player_pirate.cpp
     role/player_jinbei.h role/player_jinbei.cpp
     role/player_queen.h role/player_queen.cpp
     role/player_baby.h role/player_baby.cpp
+
+    role/enemy.h role/enemy.cpp
     role/enemy_pirate.h role/enemy_pirate.cpp
     role/enemy_queen.h role/enemy_queen.cpp
+    role/enemy_jinbei.h role/enemy_jinbei.cpp
+    role/enemy_baby.h role/enemy_baby.cpp
 )
 
 set(STATE_SOURCES
@@ -71,11 +76,8 @@ set(STATE_SOURCES
 )
 
 set(ROLE_STATE_SOURCES
-    role_state/pirate_player_state_machine.h role_state/pirate_player_state_machine.cpp
+    role_state/enemy_state_machine.h role_state/enemy_state_machine.cpp
     role_state/queen_player_state_machine.h role_state/queen_player_state_machine.cpp
-    role_state/jinbei_player_state_machine.h role_state/jinbei_player_state_machine.cpp
-    role_state/baby_player_state_machine.h role_state/baby_player_state_machine.cpp
-    role_state/pirate_enemy_state_machine.h role_state/pirate_enemy_state_machine.cpp
     role_state/queen_enemy_state_machine.h role_state/queen_enemy_state_machine.cpp
 )
 

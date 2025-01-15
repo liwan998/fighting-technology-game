@@ -16,6 +16,9 @@ private:
     const float CD_skill = 7.00f;
     const float CD_attack = 2.00f;
 
+    const float attackDuration=1.9f;
+    const float skillDuration=1.6f;
+
     const int attack_single_damage=3;
     const int skill_single_damage=3;
 };

@@ -7,8 +7,10 @@
 #include"enemy_queen.h"
 
 #include"player_jinbei.h"
+#include"enemy_jinbei.h"
 
 #include"player_baby.h"
+#include"enemy_baby.h"
 
 #include"interface_manager.h"
 #include"thread_pool.h"
@@ -53,15 +55,12 @@ void Character_Manager::on_update(float delta)
         std::unique_lock<std::mutex> lock(mtx_update2);
         player2->on_update(delta);
     });
-    // player->on_update(delta);
-    // player2->on_update(delta);
 }
 
 void Character_Manager::on_render(QPainter &painter)
 {
     player->on_render(painter);
     player2->on_render(painter);
-
 }
 
 void Character_Manager::on_enter()
@@ -110,6 +109,12 @@ void Character_Manager::on_enter()
         break;
     case 5:
         player2=new Enemy_queen();
+        break;
+    case 6:
+        player2=new Enemy_Jinbei();
+        break;
+    case 7:
+        player2=new Enemy_Baby();
         break;
     default:
         break;

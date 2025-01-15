@@ -34,7 +34,7 @@ void Bullet_Manager::create_bullet(Bullet_kind kind,bool is_left,QPointF positio
         break;
     case Bullet_Manager::Bullet_kind::boby_skill:
         bullet=new Bullet_Boby_skill();
-        bullet->setVelocity(QPointF(0,3));
+        bullet->setVelocity(QPointF(0,4));
         break;
     default:
         break;
