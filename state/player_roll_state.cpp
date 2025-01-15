@@ -70,3 +70,8 @@ void Player_Roll_State::on_exit()
     }
     player->get_hurt_box()->set_enabled(true);
 }
+
+void Player_Roll_State::setTimerWaitTime(float time)
+{
+    timer.set_wait_time(time);
+}

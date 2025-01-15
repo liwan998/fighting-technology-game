@@ -1,4 +1,12 @@
 #include "player.h"
+#include"player_attack_state.h"
+#include"player_dead_state.h"
+#include"player_fall_state.h"
+#include"player_idle_state.h"
+#include"player_jump_state.h"
+#include"player_roll_state.h"
+#include"player_run_state.h"
+#include"player_skill_state.h"
 
 Player::Player(QObject *parent)
     : Character{parent}
@@ -226,6 +234,28 @@ const bool Player::can_jump() const
 const bool Player::can_roll() const
 {
     return !is_roll_cd && !is_roll && is_roll_key_down;
+}
+
+void Player::load_state_node(Player_select player_select,const float attackWaitTime,
+                             const float skillWaitTime,const float RollWaitTime)
+{
+    // 状态机初始化
+    auto playerAttackState=new Player_Attack_State(player_select);
+    playerAttackState->setTimerWaitTime(attackWaitTime);
+    auto playerSkillState=new Player_Skill_State(player_select);
+    playerSkillState->setTimerWaitTime(skillWaitTime);
+    auto playerRollState=new Player_Roll_State(player_select);
+    playerRollState->setTimerWaitTime(RollWaitTime);
+
+    state_machine.register_state("attack", playerAttackState);
+    state_machine.register_state("skill", playerSkillState);
+    state_machine.register_state("roll", playerRollState);
+    state_machine.register_state("dead", new Player_Dead_State(player_select));
+    state_machine.register_state("fall", new Player_Fall_State(player_select));
+    state_machine.register_state("idle", new Player_Idle_State(player_select));
+    state_machine.register_state("jump", new Player_Jump_State(player_select));
+    state_machine.register_state("run", new Player_Run_State(player_select));
+    state_machine.set_entry("idle");
 }
 
 void Player::setIs_key_control(bool newIs_key_control)

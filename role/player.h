@@ -45,6 +45,10 @@ public://动作
     const bool can_jump()const;
     const bool can_roll()const;
 
+protected:
+    void load_state_node(Player_select player_select,const float attackWaitTime,
+                         const float skillWaitTime,const float RollWaitTime=0.5f);
+
 private:
     bool is_left_key_down = false;      //按键控制
     bool is_right_key_down = false;

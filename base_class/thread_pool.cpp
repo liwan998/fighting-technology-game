@@ -38,7 +38,6 @@ void Thread_Pool::stop() {
 void Thread_Pool::worker() {
     while (true) {
         Task task;
-
         {
             std::unique_lock<std::mutex> lock(queue_mutex);
             // 等待任务或停止信号

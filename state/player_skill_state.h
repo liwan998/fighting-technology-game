@@ -18,6 +18,8 @@ public:
     virtual void on_update(float delta) override;
     virtual void on_exit() override;
 
+    void setTimerWaitTime(float time);
+
 protected:
     virtual void update_hit_box_position();
 

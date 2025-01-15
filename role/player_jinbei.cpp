@@ -1,7 +1,6 @@
 #include "player_jinbei.h"
 #include "character_manager.h"
 #include "sound_manager.h"
-#include"jinbei_player_state_machine.h"
 
 Player_Jinbei::Player_Jinbei(Player_select player_select, QObject *parent)
     : Player{parent}
@@ -25,13 +24,13 @@ Player_Jinbei::Player_Jinbei(Player_select player_select, QObject *parent)
     hit_skill_box->set_size({200, 150});
     hurt_box->set_size({70, 80});
 
-    timer_attack_hit.set_wait_time(1.12f);
+    timer_attack_hit.set_wait_time(attackDuration+1);
     timer_attack_hit.set_one_shot(true);
     timer_attack_hit.set_on_timeout([&]() {
         is_attack_hit = true;
     });
 
-    timer_skill_hit.set_wait_time(0.51f); // 技能持续时间大约攻击6次左右
+    timer_skill_hit.set_wait_time(skillDuration/6);
     timer_skill_hit.set_one_shot(true);
     timer_skill_hit.set_on_timeout([&]() {
         is_skill_hit = true;
@@ -73,15 +72,5 @@ Player_Jinbei::Player_Jinbei(Player_select player_select, QObject *parent)
     });
 
     load_image_resource("Jinbei");
-
-    // 状态机初始化
-    state_machine.register_state("attack", new Jinbei_Player_Attack_State(player_select));
-    state_machine.register_state("skill", new Jinbei_Player_Skill_State(player_select));
-    state_machine.register_state("dead", new Jinbei_Player_Dead_State(player_select));
-    state_machine.register_state("fall", new Jinbei_Player_Fall_State(player_select));
-    state_machine.register_state("idle", new Jinbei_Player_Idle_State(player_select));
-    state_machine.register_state("jump", new Jinbei_Player_Jump_State(player_select));
-    state_machine.register_state("roll", new Jinbei_Player_Roll_State(player_select));
-    state_machine.register_state("run", new Jinbei_Player_Run_State(player_select));
-    state_machine.set_entry("idle");
+    load_state_node(player_select,attackDuration,skillDuration);
 }

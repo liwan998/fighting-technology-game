@@ -18,6 +18,8 @@ public:
     virtual void on_update(float delta) override;
     virtual void on_exit() override;
 
+    void setTimerWaitTime(float time);
+
 protected:
     Timer timer;
     Player::Player_select player_select=Player::Player_select::left;

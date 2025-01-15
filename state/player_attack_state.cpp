@@ -75,6 +75,11 @@ void Player_Attack_State::on_exit()
     player->setIs_key_control(true);
 }
 
+void Player_Attack_State::setTimerWaitTime(float time)
+{
+    timer.set_wait_time(time);
+}
+
 void Player_Attack_State::update_hit_box_position()
 {
     Player* player=nullptr;

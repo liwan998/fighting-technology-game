@@ -3,7 +3,6 @@
 #include "queen_player_state_machine.h"
 #include "bullet_manager.h"
 #include "sound_manager.h"
-#include <QDebug>
 
 Player_queen::Player_queen(Player_select player_select, QObject *parent)
     : Player{parent}

@@ -1,7 +1,6 @@
 #include "player_baby.h"
 #include "character_manager.h"
 #include "sound_manager.h"
-#include"baby_player_state_machine.h"
 #include"bullet_manager.h"
 #include"rand_number.h"
 
@@ -27,13 +26,13 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     hit_skill_box->set_size({20, 20});
     hurt_box->set_size({20, 80});
 
-    timer_attack_hit.set_wait_time(1.6f);
+    timer_attack_hit.set_wait_time(attackDuration+1);
     timer_attack_hit.set_one_shot(true);
     timer_attack_hit.set_on_timeout([&]() {
         is_attack_hit = true;
     });
 
-    timer_skill_hit.set_wait_time(4.0f);
+    timer_skill_hit.set_wait_time(skillDuration+1);
     timer_skill_hit.set_one_shot(true);
     timer_skill_hit.set_on_timeout([&]() {
         is_skill_hit = true;
@@ -74,19 +73,6 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
         is_skill_cd = false;
     });
 
-    load_image_resource("baby");
-
-    // 状态机初始化
-    state_machine.register_state("attack", new Baby_Player_Attack_State(player_select));
-    state_machine.register_state("skill", new Baby_Player_Skill_State(player_select));
-    state_machine.register_state("dead", new Baby_Player_Dead_State(player_select));
-    state_machine.register_state("fall", new Baby_Player_Fall_State(player_select));
-    state_machine.register_state("idle", new Baby_Player_Idle_State(player_select));
-    state_machine.register_state("jump", new Baby_Player_Jump_State(player_select));
-    state_machine.register_state("roll", new Baby_Player_Roll_State(player_select));
-    state_machine.register_state("run", new Baby_Player_Run_State(player_select));
-    state_machine.set_entry("idle");
-
     timer_call_interval.set_one_shot(false);
     timer_call_interval.set_wait_time(0.5f);
     timer_call_interval.set_on_timeout([&]{
@@ -94,6 +80,9 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
         Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_skill, is_facing_left,
                                                   QPointF(random_position_x(),-150), player_selects);
     });
+
+    load_image_resource("baby");
+    load_state_node(player_select,attackDuration,skillDuration);
 }
 
 
