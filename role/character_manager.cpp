@@ -12,9 +12,7 @@
 #include"player_baby.h"
 #include"enemy_baby.h"
 
-#include"interface_manager.h"
 #include"thread_pool.h"
-
 
 Character_Manager* Character_Manager::manager = nullptr;
 std::mutex Character_Manager::m_mutex;
@@ -30,17 +28,11 @@ Character_Manager* Character_Manager::instance()
 
 void Character_Manager::key_Press(QKeyEvent& event){
     player->key_Press(event);
-    if(Interface_manager::instance()->get_select_widget()->getPlayer2_select()>=
-        Interface_manager::instance()->get_select_widget()->getPlayer_num())
-        return;
     player2->key_Press(event);
 }
 void Character_Manager::key_Release(QKeyEvent& event){
 
     player->key_Release(event);
-    if(Interface_manager::instance()->get_select_widget()->getPlayer2_select()>=
-        Interface_manager::instance()->get_select_widget()->getPlayer_num())
-        return;
     player2->key_Release(event);
 }
 
@@ -63,7 +55,7 @@ void Character_Manager::on_render(QPainter &painter)
     player2->on_render(painter);
 }
 
-void Character_Manager::on_enter()
+void Character_Manager::on_enter(int player1_select,int player2_select)
 {
     if(player){
         delete player;
@@ -71,8 +63,6 @@ void Character_Manager::on_enter()
     if(player2){
         delete player2;
     }
-
-    int player1_select=Interface_manager::instance()->get_select_widget()->getPlayer1_select();
     switch (player1_select) {
     case 0:
         player =new Player_pirate(Player::Player_select::left);
@@ -89,8 +79,6 @@ void Character_Manager::on_enter()
     default:
         break;
     }
-
-    int player2_select=Interface_manager::instance()->get_select_widget()->getPlayer2_select();
     switch (player2_select) {
     case 0:
         player2 =new Player_pirate(Player::Player_select::right);

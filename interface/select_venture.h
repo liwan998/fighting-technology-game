@@ -31,7 +31,7 @@ private slots:
     void on_btn_return_home_clicked();
 
 private:
-    const int player_num=2;//当前角色数量
+    const int player_num=4;//当前角色数量
 
 private:
     Ui::Select_venture *ui;

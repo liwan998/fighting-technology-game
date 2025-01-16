@@ -14,7 +14,7 @@
    <string>战斗界面</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icon.qrc">
+   <iconset resource="../icon.qrc">
     <normaloff>:/icon/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/resource/icon/猫咪.svg</normaloff>:/icon/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/resource/icon/猫咪.svg</iconset>
   </property>
   <widget class="QLCDNumber" name="lcdNumber">
@@ -38,6 +38,9 @@
    </property>
    <property name="value">
     <number>100</number>
+   </property>
+   <property name="textDirection">
+    <enum>QProgressBar::Direction::TopToBottom</enum>
    </property>
    <property name="format">
     <string>%p</string>
@@ -85,7 +88,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="icon.qrc"/>
+  <include location="../icon.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -106,7 +106,7 @@ set(RESOURCES
 # 创建可执行文件
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(fistfight MANUAL_FINALIZATION
-
+        interface/levels_base.h interface/levels_base.cpp
        )
 else()
     if(ANDROID)

@@ -28,6 +28,14 @@ Select_venture::Select_venture(QWidget *parent)
     animation_queen1.add_fram(Resources_manager::instance()->find_atlas("queen_show"));
     animation_queen1.set_interval(0.032);
 
+    Animation &animation_Jinbei1=animation_pool[2];
+    animation_Jinbei1.add_fram(Resources_manager::instance()->find_atlas("Jinbei_show"));
+    animation_Jinbei1.set_interval(0.032);
+
+    Animation &animation_baby1=animation_pool[3];
+    animation_baby1.add_fram(Resources_manager::instance()->find_atlas("baby_show_right"));
+    animation_baby1.set_interval(0.07);
+
     current_player1_animation=&animation_pool[0];
     background_music=Sound_manager::instance()->find_background_music("select");
 }

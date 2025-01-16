@@ -24,7 +24,7 @@ public:
 
     void on_update(float delta);
     void on_render(QPainter &painter);
-    void on_enter();
+    void on_enter(int player1_select,int player2_select);
     void on_exit();
 
 

@@ -163,7 +163,10 @@ void Select::on_btn_player2_next_clicked()
 
 void Select::on_btn_start_clicked()
 {
-    Character_Manager::instance()->on_enter();
+    int player1_select=Interface_manager::instance()->get_select_widget()->getPlayer1_select();
+    int player2_select=Interface_manager::instance()->get_select_widget()->getPlayer2_select();
+
+    Character_Manager::instance()->on_enter(player1_select,player2_select);
     Interface_manager::instance()->switch_to(Interface_manager::Interface::game);
 }
 
