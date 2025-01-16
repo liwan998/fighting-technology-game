@@ -7,3 +7,4 @@ Levels_1::Levels_1(QWidget *parentr)
     background=Resources_manager::instance()->find_image("background0");
     background_music=Sound_manager::instance()->find_background_music("game");
     FLOOR_Y=710;
+}
