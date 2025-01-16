@@ -11,6 +11,7 @@ Select::Select(QWidget *parent)
     , ui(new Ui::Select)
 {
     ui->setupUi(this);
+    this->setFixedSize(1380,720);
     //60帧更新角色展示图片
     timer.start(1000/60);
     connect(&timer,&QTimer::timeout,this,[&](){

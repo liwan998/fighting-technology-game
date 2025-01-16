@@ -1,7 +1,7 @@
 #ifndef LEVELS_BASE_H
 #define LEVELS_BASE_H
 
-#include <QWidget>
+#include"screen.h"
 #include <qpainter.h>
 #include <mutex>
 #include"timer.h"
@@ -11,7 +11,7 @@ class QTimer;
 class QMediaPlayer;
 class QPainter;
 
-class Levels_Base : public QWidget
+class Levels_Base : public Screen
 {
     Q_OBJECT
 public:
@@ -19,8 +19,10 @@ public:
     ~Levels_Base()=default;
 
 public:
-    virtual void on_enter();
-    virtual void on_exit();
+    virtual void on_enter()override;
+    virtual void on_exit()override;
+
+    const float getFLOOR_Y();
 
 protected:
     virtual void on_update(float date);
@@ -36,10 +38,10 @@ protected:
     QProgressBar *P1HealthBar=nullptr;
     QProgressBar *P2HealthBar=nullptr;
     QTimer *timerFrameInterval60=nullptr;
-    QMediaPlayer *background_music=nullptr;
     QPainter painter;
     Timer timer_dead;
     bool is_dead=false;
+    float FLOOR_Y;
 
     std::mutex mutexBulletUpdate;
     std::mutex mutexTextUpdate;

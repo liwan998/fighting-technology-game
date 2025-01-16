@@ -40,6 +40,9 @@ static const QVector<ImageResInfo>image_info_list = {
     {"queen_big_bullet","./resource/queen/bullet/big0.png"},
     //刀
     {"knife","./resource/effects/knife.png"},
+    //关卡
+    {"background0","./resource/background0.png"},
+    {"background1","./resource/background1.png"},
 
 };
 

@@ -4,12 +4,14 @@
 #include"interface_manager.h"
 #include"sound_manager.h"
 #include"rand_number.h"
+#include"character_manager.h"
 
 Select_venture::Select_venture(QWidget *parent)
     : Screen(parent)
     , ui(new Ui::Select_venture)
 {
     ui->setupUi(this);
+    this->setFixedSize(1380,720);
     timer.start(1000/60);
     connect(&timer,&QTimer::timeout,this,[&](){
         if(current_player1_animation){
@@ -93,5 +95,19 @@ void Select_venture::on_btn_game_over_clicked()
 void Select_venture::on_btn_return_home_clicked()
 {
     Interface_manager::instance()->switch_to(Interface_manager::Interface::start);
+}
+
+
+void Select_venture::on_btn_level_1_clicked()
+{
+    Character_Manager::instance()->on_enter(player1_select,4);
+    Interface_manager::instance()->switch_to(Interface_manager::Interface::levels_1);
+}
+
+
+void Select_venture::on_btn_level_2_clicked()
+{
+    Character_Manager::instance()->on_enter(player1_select,5);
+    Interface_manager::instance()->switch_to(Interface_manager::Interface::levels_2);
 }
 

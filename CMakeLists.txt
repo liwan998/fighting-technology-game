@@ -88,6 +88,9 @@ set(INTERFACE_SOURCES
     interface/select.h interface/select.cpp interface/select.ui
     interface/game.cpp interface/game.h interface/game.ui
     interface/select_venture.h interface/select_venture.cpp interface/select_venture.ui
+    interface/levels_base.h interface/levels_base.cpp
+    interface/levels_1.h interface/levels_1.cpp
+    interface/levels_2.h interface/levels_2.cpp
 )
 
 set(BULLET_SOURCES
@@ -106,7 +109,7 @@ set(RESOURCES
 # 创建可执行文件
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(fistfight MANUAL_FINALIZATION
-        interface/levels_base.h interface/levels_base.cpp
+
        )
 else()
     if(ANDROID)

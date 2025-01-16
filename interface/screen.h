@@ -2,7 +2,8 @@
 #define SCREEN_H
 
 #include <QWidget>
-#include<QMediaPlayer>
+
+class QMediaPlayer;
 class Screen : public QWidget
 {
     Q_OBJECT

@@ -16,6 +16,8 @@ public:
         select,
         select_venture,
         game,
+        levels_1,
+        levels_2,
         over
     };
     void switch_to(Interface interface);//界面跳转

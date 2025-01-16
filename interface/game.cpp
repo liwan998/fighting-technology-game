@@ -18,6 +18,7 @@ Game::Game(QWidget *parent)
     //ui页面修改
     ui->setupUi(this);
     ui->lcdNumber->setDigitCount(3);
+    this->setFixedSize(1380,720);
     timer_game.setInterval(1000);
     connect(&timer_game,&QTimer::timeout,this,[&]{
         int currentValue = ui->lcdNumber->intValue();

@@ -2,20 +2,20 @@
 #include<QProgressBar>
 #include<Qtimer.h>
 #include<QMediaPlayer>
-
+#include<QMessageBox>
 #include"character_manager.h"
 #include"bullet_manager.h"
 #include"floating_text_manager.h"
 #include"collision_manager.h"
-
+#include"interface_manager.h"
 #include"thread_pool.h"
 
 Levels_Base::Levels_Base(QWidget *parent)
-    : QWidget{parent}
+    : Screen{parent}
 {
     this->setFixedSize(1380,720);
     timerFrameInterval60=new QTimer(this);
-    timerFrameInterval60->start(16);
+    timerFrameInterval60->setInterval(16);
     connect(timerFrameInterval60,&QTimer::timeout,this,[&]{
         on_update(0.016);
     });
@@ -44,15 +44,26 @@ Levels_Base::Levels_Base(QWidget *parent)
 
 void Levels_Base::on_enter()
 {
+    auto manager=Character_Manager::instance();
+    manager->get_player()->setFloor_y(FLOOR_Y);
+    manager->get_player2()->setFloor_y(FLOOR_Y);
     timerFrameInterval60->start();
     timer_dead.restart();
-    background_music->play();
+    is_dead=false;
+    P1HealthBar->setValue(100);
+    P2HealthBar->setValue(100);
+    Screen::on_enter();
 }
 
 void Levels_Base::on_exit()
 {
     timerFrameInterval60->stop();
-    background_music->stop();
+    Screen::on_exit();
+}
+
+const float Levels_Base::getFLOOR_Y()
+{
+    return FLOOR_Y;
 }
 
 void Levels_Base::on_update(float date)
@@ -84,10 +95,23 @@ void Levels_Base::on_update(float date)
     if(is_dead){
         int player_hp=Character_Manager::instance()->get_player()->get_hp();
         int player2_hp=Character_Manager::instance()->get_player2()->get_hp();
+        QString str;
         if(player_hp>player2_hp){
-            emit game_over(true);
+            str="挑战成功";
         }else if(player_hp<player2_hp){
-            emit game_over(false);
+            str="挑战失败";
+        }else{
+            str="平局，还需努力";
+        }
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(nullptr, "胜负已分", str+"\n是否继续挑战？",
+                                      QMessageBox::Yes | QMessageBox::No);
+
+        if (reply == QMessageBox::Yes) {
+            Interface_manager::instance()->switch_to(Interface_manager::Interface::select_venture);
+        } else {
+            timerFrameInterval60->stop();
+            Interface_manager::instance()->switch_to(Interface_manager::Interface::over);
         }
     }
 }

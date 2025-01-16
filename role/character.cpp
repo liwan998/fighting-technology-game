@@ -123,6 +123,11 @@ bool Character::is_on_floor() const
     return position.y()+position_foot.y()>=FLOOR_Y;
 }
 
+void Character::setFloor_y(float newFLOOR_Y)
+{
+    FLOOR_Y=newFLOOR_Y;
+}
+
 float Character::get_floor_y() const
 {
     return FLOOR_Y;

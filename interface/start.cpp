@@ -12,6 +12,7 @@ Start::Start(QWidget *parent)
     , ui(new Ui::Start)
 {
     ui->setupUi(this);
+    this->setFixedSize(1380,720);
     QImage *title=Resources_manager::instance()->find_image("start_title");
     if (title) {
         ui->label->setPixmap(QPixmap::fromImage(*title));

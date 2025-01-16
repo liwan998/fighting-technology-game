@@ -1,5 +1,5 @@
 #include "screen.h"
-
+#include<QMediaPlayer>
 Screen::Screen(QWidget *parent)
     : QWidget{parent}
 {}

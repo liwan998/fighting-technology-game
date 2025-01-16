@@ -42,6 +42,7 @@ public:
     Collision_box* get_hit_skill_box();
     Collision_box* get_hurt_box();
     bool is_on_floor()const;
+    void setFloor_y(float newFLOOR_Y);
     float get_floor_y()const;
     bool getIs_facing_left() const;
 
@@ -80,7 +81,7 @@ protected:
     void load_hit_interval(const float &attack_interval,const float &skill_interval);
     void load_effect(QString effectName,bool isMan);
 protected:
-    const float FLOOR_Y = 620;		//地板的竖直方向坐标
+    float FLOOR_Y = 620;		//地板的竖直方向坐标
     const float GRAVITY = 980*2;	//重力大小
 
     const int WIDE=1380;  //界面宽
