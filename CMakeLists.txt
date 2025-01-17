@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
+# 在发布版本中禁用 qDebug 输出
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_definitions(-DQT_NO_DEBUG_OUTPUT)
+endif()
 
 project(fistfight VERSION 0.1 LANGUAGES CXX)
 
@@ -91,6 +95,8 @@ set(INTERFACE_SOURCES
     interface/levels_base.h interface/levels_base.cpp
     interface/levels_1.h interface/levels_1.cpp
     interface/levels_2.h interface/levels_2.cpp
+    interface/levels_3.h interface/levels_3.cpp
+    interface/levels_4.h interface/levels_4.cpp
 )
 
 set(BULLET_SOURCES

@@ -43,6 +43,8 @@ static const QVector<ImageResInfo>image_info_list = {
     //关卡
     {"background0","./resource/background0.png"},
     {"background1","./resource/background1.png"},
+    {"background2","./resource/background2.png"},
+    {"background3","./resource/background3.png"},
 
 };
 

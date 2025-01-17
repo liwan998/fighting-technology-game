@@ -18,6 +18,8 @@ public:
         game,
         levels_1,
         levels_2,
+        levels_3,
+        levels_4,
         over
     };
     void switch_to(Interface interface);//界面跳转

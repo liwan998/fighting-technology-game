@@ -12,7 +12,7 @@ Enemy_Baby::Enemy_Baby(QObject *parent)
     position_foot = {156, 239};
     logic_heigth = 142;
 
-    load_effect("pirate",false);
+    load_effect("baby",false);
     load_collision_box(Player_select::right);
 
     hit_attack_box->set_size({20, 20});
@@ -20,7 +20,7 @@ Enemy_Baby::Enemy_Baby(QObject *parent)
     hurt_box->set_size({20, 80});
 
     timer_call_interval.set_one_shot(false);
-    timer_call_interval.set_wait_time(0.5f);
+    timer_call_interval.set_wait_time(0.2f);
     timer_call_interval.set_on_timeout([&]{
         timer_call_interval.restart();
         Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_skill, is_facing_left,
@@ -39,7 +39,7 @@ void Enemy_Baby::on_attack()
     Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_attack, is_facing_left,
                                               get_logic_center() - QPointF(0,30), Player_select::right);
 
-    Character::on_attack();
+    Enemy::on_attack();
 }
 
 void Enemy_Baby::on_skill()
@@ -47,7 +47,7 @@ void Enemy_Baby::on_skill()
     Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_skill, is_facing_left,
                                               QPointF(random_position_x(),-150), Player_select::right);
     timer_call_interval.restart();
-    Character::on_skill();
+    Enemy::on_skill();
 }
 
 void Enemy_Baby::on_update(float delta)
@@ -55,7 +55,7 @@ void Enemy_Baby::on_update(float delta)
     if(is_skill){
         timer_call_interval.on_update(delta);
     }
-    Character::on_update(delta);
+    Enemy::on_update(delta);
 }
 
 int Enemy_Baby::random_position_x()

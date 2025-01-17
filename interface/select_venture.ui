@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>管卡选择界面</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../icon.qrc">
+    <normaloff>:/icon/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/resource/icon/猫咪.svg</normaloff>:/icon/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/resource/icon/猫咪.svg</iconset>
   </property>
   <widget class="QLabel" name="lab_player1_show">
    <property name="geometry">
@@ -190,6 +194,8 @@
   <zorder>btn_game_over</zorder>
   <zorder>btn_return_home</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icon.qrc"/>
+ </resources>
  <connections/>
 </ui>

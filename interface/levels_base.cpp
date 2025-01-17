@@ -14,6 +14,7 @@ Levels_Base::Levels_Base(QWidget *parent)
     : Screen{parent}
 {
     this->setFixedSize(1380,720);
+    this->setWindowIcon(QIcon(":/icon/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/resource/icon/猫咪.svg"));
     timerFrameInterval60=new QTimer(this);
     timerFrameInterval60->setInterval(16);
     connect(timerFrameInterval60,&QTimer::timeout,this,[&]{

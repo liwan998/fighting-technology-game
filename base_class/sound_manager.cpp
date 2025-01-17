@@ -23,6 +23,10 @@ static const QVector<Sound_ResInfo>background_music_info_list = {
     {"start","./sound/background_music/舒缓背景音.mp3"},
     {"select","./sound/background_music/False_King.mp3"},
     {"game","./sound/background_music/枪火战线游戏背景音乐.mp3"},
+    {"game1","./sound/background_music/bgm0.mp3"},
+    {"game2","./sound/background_music/bgm1.mp3"},
+    {"game3","./sound/background_music/bgm2.mp3"},
+    {"game4","./sound/background_music/bgm3.mp3"},
 };
 
 static const QVector<Sound_ResInfo>sound_eddect_info_list = {
@@ -37,6 +41,11 @@ static const QVector<Sound_ResInfo>sound_eddect_info_list = {
     {"queen_attack","./sound/sound_effect/踢腿打击.mp3"},
     {"queen_skill","./sound/sound_effect/飞吻音效.mp3"},
 
+    {"Jinbei_attack","./sound/sound_effect/劈砍.mp3"},
+    {"Jinbei_skill","./sound/sound_effect/气功.mp3"},
+
+    {"baby_attack","./sound/sound_effect/火焰弹.mp3"},
+    {"baby_skill","./sound/sound_effect/召唤.mp3"},
 };
 
 void Sound_manager::load()

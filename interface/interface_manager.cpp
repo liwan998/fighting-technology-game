@@ -5,6 +5,8 @@
 #include"game.h"
 #include"levels_1.h"
 #include"levels_2.h"
+#include"levels_3.h"
+#include"levels_4.h"
 #include<QDebug>
 
 Interface_manager* Interface_manager::manager=nullptr;
@@ -18,6 +20,8 @@ Interface_manager::Interface_manager()
     list[Interface::game]=new Game();
     list[Interface::levels_1]=new Levels_1();
     list[Interface::levels_2]=new Levels_2();
+    list[Interface::levels_3]=new Levels_3();
+    list[Interface::levels_4]=new Levels_4();
 }
 Interface_manager::~Interface_manager()
 {

@@ -111,3 +111,17 @@ void Select_venture::on_btn_level_2_clicked()
     Interface_manager::instance()->switch_to(Interface_manager::Interface::levels_2);
 }
 
+
+void Select_venture::on_btn_level_3_clicked()
+{
+    Character_Manager::instance()->on_enter(player1_select,6);
+    Interface_manager::instance()->switch_to(Interface_manager::Interface::levels_3);
+}
+
+
+void Select_venture::on_btn_level_4_clicked()
+{
+    Character_Manager::instance()->on_enter(player1_select,7);
+    Interface_manager::instance()->switch_to(Interface_manager::Interface::levels_4);
+}
+

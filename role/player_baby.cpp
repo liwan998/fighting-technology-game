@@ -14,7 +14,7 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     position_foot = {156, 239};
     logic_heigth = 142;
 
-    load_effect("pirate",false);
+    load_effect("baby",false);
     load_collision_box(player_select);
 
     hit_attack_box->set_size({20, 20});
@@ -26,7 +26,7 @@ Player_Baby::Player_Baby(Player_select player_select,QObject *parent)
     load_hit_CD(CD_attack,CD_skill);
 
     timer_call_interval.set_one_shot(false);
-    timer_call_interval.set_wait_time(0.5f);
+    timer_call_interval.set_wait_time(0.2f);
     timer_call_interval.set_on_timeout([&]{
         timer_call_interval.restart();
         Bullet_Manager::instance()->create_bullet(Bullet_Manager::Bullet_kind::boby_skill, is_facing_left,

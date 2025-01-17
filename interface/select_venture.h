@@ -34,6 +34,10 @@ private slots:
 
     void on_btn_level_2_clicked();
 
+    void on_btn_level_3_clicked();
+
+    void on_btn_level_4_clicked();
+
 private:
     const int player_num=4;//当前角色数量
 
