@@ -29,18 +29,49 @@ Levels_Base::Levels_Base(QWidget *parent)
 
     P1HealthBar=new QProgressBar(this);
     P1HealthBar->resize(481,61);
-    P1HealthBar->move(100,10);
+    P1HealthBar->move(20,20);
     P1HealthBar->setMaximum(100);
     P1HealthBar->setMinimum(0);
     P1HealthBar->setValue(100);
 
     P2HealthBar=new QProgressBar(this);
     P2HealthBar->resize(481,61);
-    P2HealthBar->move(900,10);
+    P2HealthBar->move(this->width()-P2HealthBar->size().width()-20,20);
     P2HealthBar->setMaximum(100);
     P2HealthBar->setMinimum(0);
     P2HealthBar->setValue(100);
 
+    P1HealthBar->setStyleSheet(
+        "QProgressBar {"
+        "   border: 2px solid #8B0000;"      // 深红色边框
+        "   border-radius: 6px;"            // 圆角边框
+        "   background: #2F4F4F;"           // 暗灰色背景
+        "   text-align: center;"            // 文字居中
+        "   color: #FFD700;"                // 金色文字更醒目
+        "   font-weight: bold;"             // 粗体字
+        "}"
+        "QProgressBar::chunk {"
+        "   background: qlineargradient(x1:0, y1:0.5, x2:1, y2:0.5,"  // 水平渐变
+        "               stop:0 #FF4500, stop:0.5 #FF0000, stop:1 #8B0000);"  // 橙红→鲜红→暗红
+        "   border-radius: 4px;"            // 内部圆角
+        "   margin: 1px;"                   // 边距
+        "}");
+
+    P2HealthBar->setStyleSheet(
+        "QProgressBar {"
+        "   border: 2px solid #2F0000;"      // 更深的边框颜色
+        "   border-radius: 6px;"
+        "   background: #1A1A1A;"           // 深灰色背景
+        "   text-align: center;"
+        "   color: #FFD700;"                // 金色文字更醒目
+        "   font-weight: bold;"
+        "}"
+        "QProgressBar::chunk {"
+        "   background: qlineargradient(x1:0, y1:0.5, x2:1, y2:0.5,"  // 保持水平渐变
+        "               stop:0 #8B0000, stop:0.5 #FF0000, stop:1 #FF4500);"  // 反向渐变
+        "   border-radius: 4px;"
+        "   margin: 1px;"
+        "}");
 }
 
 void Levels_Base::on_enter()

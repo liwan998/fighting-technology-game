@@ -12,6 +12,61 @@ Select::Select(QWidget *parent)
 {
     ui->setupUi(this);
     this->setFixedSize(1380,720);
+
+    ui->btn_start->setStyleSheet(
+        "QPushButton {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #FF0000, stop:1 #FFB6C1);"
+        "   border: none;"
+        "   color: white;"  // 文字颜色
+        "   padding: 8px;"
+        "   border-radius: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #FF6666, stop:1 #FFC0CB);"
+        "}"
+        "QPushButton:pressed {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #CC0000, stop:1 #FF69B4);"
+        "}");
+
+    ui->btn_over->setStyleSheet(
+        "QPushButton {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #0000FF, stop:1 #FFFFFF);"
+        "   border: none;"
+        "   color: white;"  // 文字颜色（白色在蓝色区域更显眼）
+        "   padding: 8px;"
+        "   border-radius: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #6666FF, stop:1 #F0F8FF);"  // 浅蓝+亚麻白
+        "}"
+        "QPushButton:pressed {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #0000CC, stop:1 #E6E6FA);"  // 深蓝+薰衣草白
+        "}");
+
+    ui->btn_return_home->setStyleSheet(
+        "QPushButton {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #0000FF, stop:1 #FFFFFF);"
+        "   border: none;"
+        "   color: white;"  // 文字颜色（白色在蓝色区域更显眼）
+        "   padding: 8px;"
+        "   border-radius: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #6666FF, stop:1 #F0F8FF);"  // 浅蓝+亚麻白
+        "}"
+        "QPushButton:pressed {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #0000CC, stop:1 #E6E6FA);"  // 深蓝+薰衣草白
+        "}");
+
     //60帧更新角色展示图片
     timer.start(1000/60);
     connect(&timer,&QTimer::timeout,this,[&](){

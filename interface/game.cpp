@@ -10,6 +10,8 @@
 #include<QDebug>
 #include<QMessageBox>
 #include<thread_pool.h>
+#include<QPropertyAnimation>
+#include<QGraphicsDropShadowEffect>
 
 Game::Game(QWidget *parent)
     : Screen(parent)
@@ -19,6 +21,71 @@ Game::Game(QWidget *parent)
     ui->setupUi(this);
     ui->lcdNumber->setDigitCount(3);
     this->setFixedSize(1380,720);
+
+    ui->player1_health->setStyleSheet(
+        "QProgressBar {"
+        "   border: 2px solid #8B0000;"      // 深红色边框
+        "   border-radius: 6px;"            // 圆角边框
+        "   background: #2F4F4F;"           // 暗灰色背景
+        "   text-align: center;"            // 文字居中
+        "   color: #FFD700;"                // 金色文字更醒目
+        "   font-weight: bold;"             // 粗体字
+        "}"
+        "QProgressBar::chunk {"
+        "   background: qlineargradient(x1:0, y1:0.5, x2:1, y2:0.5,"  // 水平渐变
+        "               stop:0 #FF4500, stop:0.5 #FF0000, stop:1 #8B0000);"  // 橙红→鲜红→暗红
+        "   border-radius: 4px;"            // 内部圆角
+        "   margin: 1px;"                   // 边距
+        "}");
+
+    ui->player2_health->setStyleSheet(
+        "QProgressBar {"
+        "   border: 2px solid #2F0000;"      // 更深的边框颜色
+        "   border-radius: 6px;"
+        "   background: #1A1A1A;"           // 深灰色背景
+        "   text-align: center;"
+        "   color: #FFD700;"                // 金色文字更醒目
+        "   font-weight: bold;"
+        "}"
+        "QProgressBar::chunk {"
+        "   background: qlineargradient(x1:0, y1:0.5, x2:1, y2:0.5,"  // 保持水平渐变
+        "               stop:0 #8B0000, stop:0.5 #FF0000, stop:1 #FF4500);"  // 反向渐变
+        "   border-radius: 4px;"
+        "   margin: 1px;"
+        "}");
+
+    ui->player1_health->move(20,20);
+    ui->player2_health->move(this->width()-ui->player2_health->size().width()-20,20);
+
+    ui->lcdNumber->setStyleSheet(
+        "QLCDNumber {"              // LCD数字
+        "   background: transparent;"       // 透明背景
+        "   color: #FF2222;"       // 亮红色数字
+        "   border: 2px solid #FF4444;"
+        "   border-radius: 0px;"   // 直角边框
+        "   qproperty-segmentStyle: Filled;"
+        "}");
+
+    // 添加闪烁动画（需要QTimer配合）
+    QTimer::singleShot(1000, [this](){
+        ui->lcdNumber->setStyleSheet("color: #FF0000;");  // 变红
+        QTimer::singleShot(200, [this](){
+            ui->lcdNumber->setStyleSheet("color: #00FF00;");  // 恢复
+        });
+    });
+
+    // 数字变化动画
+    QPropertyAnimation *anim = new QPropertyAnimation(ui->lcdNumber, "value");
+    anim->setDuration(1000);
+    anim->setEasingCurve(QEasingCurve::OutQuint);
+    anim->start();
+
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+    effect->setColor(QColor(0, 255, 0, 128));
+    effect->setBlurRadius(20);
+    ui->lcdNumber->setGraphicsEffect(effect);
+
+
     timer_game.setInterval(1000);
     connect(&timer_game,&QTimer::timeout,this,[&]{
         int currentValue = ui->lcdNumber->intValue();

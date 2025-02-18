@@ -13,6 +13,61 @@ Start::Start(QWidget *parent)
 {
     ui->setupUi(this);
     this->setFixedSize(1380,720);
+
+    ui->pushButton_1->setStyleSheet(
+        "QPushButton {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #FF0000, stop:1 #FFB6C1);"
+        "   border: none;"
+        "   color: white;"  // 文字颜色
+        "   padding: 8px;"
+        "   border-radius: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #FF6666, stop:1 #FFC0CB);"
+        "}"
+        "QPushButton:pressed {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #CC0000, stop:1 #FF69B4);"
+        "}");
+
+    ui->pushButton_3->setStyleSheet(
+        "QPushButton {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #FF0000, stop:1 #FFB6C1);"
+        "   border: none;"
+        "   color: white;"  // 文字颜色
+        "   padding: 8px;"
+        "   border-radius: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #FF6666, stop:1 #FFC0CB);"
+        "}"
+        "QPushButton:pressed {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #CC0000, stop:1 #FF69B4);"
+        "}");
+
+    ui->pushButton_2->setStyleSheet(
+        "QPushButton {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #0000FF, stop:1 #FFFFFF);"
+        "   border: none;"
+        "   color: white;"  // 文字颜色（白色在蓝色区域更显眼）
+        "   padding: 8px;"
+        "   border-radius: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #6666FF, stop:1 #F0F8FF);"  // 浅蓝+亚麻白
+        "}"
+        "QPushButton:pressed {"
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:1,"
+        "               stop:0 #0000CC, stop:1 #E6E6FA);"  // 深蓝+薰衣草白
+        "}");
+
     QImage *title=Resources_manager::instance()->find_image("start_title");
     if (title) {
         ui->label->setPixmap(QPixmap::fromImage(*title));
